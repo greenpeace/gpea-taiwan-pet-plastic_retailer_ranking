@@ -12,13 +12,13 @@
     </el-row>
     <p class="label-badge"><i class="el-icon-warning"></i> 選擇類別，開始投票！</p>
     <div class="hover-light-row">
-      <div class="hover-light" v-bind:class="{ hover: category1Hover}" @click="selectCategory(1)" @mouseenter="category1Hover = true" @mouseout="category1Hover = false">
+      <div class="hover-light" v-bind:class="{ hover: category1Hover}" @click="selectCategory(0, '超商組')" @mouseenter="category1Hover = true" @mouseout="category1Hover = false">
         <img src="@/assets/light_bg.png" alt="">
       </div>
-      <div class="hover-light" v-bind:class="{ hover: category2Hover}" @click="selectCategory(2)" @mouseenter="category2Hover = true" @mouseout="category2Hover = false">
+      <div class="hover-light" v-bind:class="{ hover: category2Hover}" @click="selectCategory(1, '超市組')" @mouseenter="category2Hover = true" @mouseout="category2Hover = false">
         <img src="@/assets/light_bg.png" alt="">
       </div>
-      <div class="hover-light" v-bind:class="{ hover: category3Hover}" @click="selectCategory(3)" @mouseenter="category3Hover = true" @mouseout="category3Hover = false">
+      <div class="hover-light" v-bind:class="{ hover: category3Hover}" @click="selectCategory(2, '量販店組')" @mouseenter="category3Hover = true" @mouseout="category3Hover = false">
         <img src="@/assets/light_bg.png" alt="">
       </div>
     </div>
@@ -28,7 +28,7 @@
           <div class="option-image">
             <img src="@/assets/convenience_store/store.png" class="image convenience" alt="">
           </div>
-          <div class="option-description" v-bind:class="{ hover: category1Hover}" @click="selectCategory(1)" @mouseenter="category1Hover = true" @mouseout="category1Hover = false">
+          <div class="option-description" v-bind:class="{ hover: category1Hover}" @click="selectCategory(0, '超商組')" @mouseenter="category1Hover = true" @mouseout="category1Hover = false">
             <h2>超商</h2>
             <h6>7-Eleven／全家</h6>
           </div>
@@ -37,7 +37,7 @@
           <div class="option-image">
             <img src="@/assets/super_market/store.png" alt="" class="image super_market">
           </div>
-          <div class="option-description" v-bind:class="{ hover: category2Hover}" @click="selectCategory(2)" @mouseenter="category2Hover = true" @mouseout="category2Hover = false">
+          <div class="option-description" v-bind:class="{ hover: category2Hover}" @click="selectCategory(1, '超市組')" @mouseenter="category2Hover = true" @mouseout="category2Hover = false">
             <h2>超市</h2>
             <h6>全聯福利中心／頂好超市／美廉社／家樂福</h6>
           </div>
@@ -46,7 +46,7 @@
           <div class="option-image">
             <img src="@/assets/mass_merchandiser/store.png" alt="" class="image mass_merchant">
           </div>
-          <div class="option-description" v-bind:class="{ hover: category3Hover}" @click="selectCategory(3)" @mouseenter="category3Hover = true" @mouseout="category3Hover = false">
+          <div class="option-description" v-bind:class="{ hover: category3Hover}" @click="selectCategory(2, '量販店組')" @mouseenter="category3Hover = true" @mouseout="category3Hover = false">
             <h2>量販店</h2>
             <h6>大潤發／好市多／愛買</h6>
           </div>
@@ -71,8 +71,8 @@ export default {
     
   },
   methods: {
-    selectCategory(i) {
-      this.$emit("decision", { type: "category", option: i});
+    selectCategory(index, value) {
+      this.$emit("decision", { type: "category", option: value, index});
     },
   }
 }

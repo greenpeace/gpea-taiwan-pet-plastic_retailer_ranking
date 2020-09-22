@@ -2,7 +2,7 @@
   <div class="select-brand">
     <el-row>
       <el-col :span="4">
-        <h2 class="title" @click="back()"><i class="el-icon-arrow-left"></i>{{categories[category - 1].title}}</h2>
+        <h2 class="title" @click="back()"><i class="el-icon-arrow-left"></i>{{categories[categoryIndex].title}}</h2>
       </el-col>
       <el-col :span="7">
         <p class="label-badge"><i class="el-icon-warning"></i> 選擇你認為最努力減塑的隊伍！</p>
@@ -10,17 +10,15 @@
     </el-row>
     <div class="hover-light-row">
       <el-row type="flex" justify="space-around">
-        <el-col class="hover-light" :span="6" v-for="(item) in categories[category - 1].items" :key="item.src">
+        <el-col class="hover-light" :span="6" v-for="(item) in categories[categoryIndex].items" :key="item.src">
           <img src="@/assets/light_bg.png" alt="">
-          <div class="confirm-btn">
-            確認投票
-          </div>
+          <el-button class="confirm-btn" @click="selectBrand(item.value)" :loading="loading">確認投票</el-button>
         </el-col>
       </el-row>
     </div>
     <div class="select-row">
       <el-row type="flex" justify="space-around">
-        <el-col :span="6" v-for="(item) in categories[category - 1].items" :key="item.src">
+        <el-col :span="6" v-for="(item) in categories[categoryIndex].items" :key="item.src">
           <div class="brand-img">
             <img :src="item.src" alt="">
           </div>
@@ -33,64 +31,21 @@
 <script>
 export default {
   name: 'SelectBrand',
-  props: ["category"],
+  props: ["categoryIndex", "categories"],
   data() {
     return {
-      categories: [
-        {
-          title: "超商組",
-          items: [
-            {
-              src: require("../../assets/convenience_store/brand_7E.png"),
-            },
-            {
-              src: require("../../assets/convenience_store/brand_FM.png"),
-            },
-          ]
-        },
-        {
-          title: "超市組",
-          items: [
-            {
-              src: require("../../assets/super_market/brand_carrefour.png"),
-            },
-            {
-              src: require("../../assets/super_market/brand_mtmart.png"),
-            },
-            {
-              src: require("../../assets/super_market/brand_simplemart.png"),
-            },
-            {
-              src: require("../../assets/super_market/brand_wellcome.png"),
-            },
-          ]
-        },
-        {
-          title: "量販店組",
-          items: [
-            {
-              src: require("../../assets/mass_merchandiser/brand_amart.png"),
-            },
-            {
-              src: require("../../assets/mass_merchandiser/brand_costco.png"),
-            },
-            {
-              src: require("../../assets/mass_merchandiser/brand_rt.png"),
-            },
-          ]
-        },
-      ]
+      loading: false,
     }
   },
-  created() {
-    this.selectedCategory = this.categories[this.category];
-    console.log(this.categories[this.category]);
-  },
+  created() {},
   methods: {
     back() {
-      console.log("back")
       this.$emit("back");
-    } 
+    },
+    selectBrand(value) {
+      this.loading = true;
+      this.$emit("decision", { type: "brand", option: value});
+    },
   }
 }
 </script>
@@ -134,10 +89,17 @@ export default {
         width: 40%;
         position: absolute;
         bottom: 10%;
-        left: 28%;
-        padding: 5px 10px;
+        left: 30%;
+        padding: 10px 10px;
         border-radius: 34px;
         background-color: #ffb100;
+        font-weight: bold;
+        color: white;
+        font-size: 1.4rem;
+        cursor: pointer;
+        &:hover {
+          background-color: #f57f17;
+        }
       }
     }
   }
