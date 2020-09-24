@@ -30,12 +30,12 @@ export default {
           items: [
             {
               value: "7-Eleven",
-              src: require("./assets/convenience_store/brand_7E.png"),
+              src: require("./assets/convenience_store/7E.png"),
               srcSummary: require("./assets/summary/run_1-1.png"),
             },
             {
               value: "全家",
-              src: require("./assets/convenience_store/brand_FM.png"),
+              src: require("./assets/convenience_store/FM.png"),
               srcSummary: require("./assets/summary/run_1-2.png"),
             },
           ]
@@ -45,22 +45,22 @@ export default {
           items: [
             {
               value: "家樂福",
-              src: require("./assets/super_market/brand_carrefour.png"),
+              src: require("./assets/super_market/carrefour.png"),
               srcSummary: require("./assets/summary/run_2-1.png"),
             },
             {
               value: "全聯福利中心",
-              src: require("./assets/super_market/brand_mtmart.png"),
+              src: require("./assets/super_market/px.png"),
               srcSummary: require("./assets/summary/run_2-2.png"),
             },
             {
               value: "美廉社",
-              src: require("./assets/super_market/brand_simplemart.png"),
+              src: require("./assets/super_market/simplemart.png"),
               srcSummary: require("./assets/summary/run_2-3.png"),
             },
             {
               value: "頂好",
-              src: require("./assets/super_market/brand_wellcome.png"),
+              src: require("./assets/super_market/wellcome.png"),
               srcSummary: require("./assets/summary/run_2-4.png"),
             },
           ]
@@ -70,17 +70,17 @@ export default {
           items: [
             {
               value: "愛買",
-              src: require("./assets/mass_merchandiser/brand_amart.png"),
+              src: require("./assets/mass_merchandiser/amart.png"),
               srcSummary: require("./assets/summary/run_3-1.png"),
             },
             {
               value: "Costco",
-              src: require("./assets/mass_merchandiser/brand_costco.png"),
+              src: require("./assets/mass_merchandiser/costco.png"),
               srcSummary: require("./assets/summary/run_3-2.png"),
             },
             {
               value: "大潤發",
-              src: require("./assets/mass_merchandiser/brand_rt.png"),
+              src: require("./assets/mass_merchandiser/rt.png"),
               srcSummary: require("./assets/summary/run_3-3.png"),
             },
           ]
@@ -104,7 +104,7 @@ export default {
       let ipRes = await axios.get("https://api.ipify.org?format=json");
       this.ip = ipRes.data.ip;
       // on local env
-      this.appScript = this.corsAnyWhere + this.appScript;
+      // this.appScript = this.corsAnyWhere + this.appScript;
       
     } catch (err) {
       console.log(err);
@@ -152,7 +152,6 @@ body {
   -o-background-size: cover;
   background-size: cover;
   height: 100vh;
-  overflow: hidden;
   margin: 0;
 }
 .bg-blur {
@@ -161,12 +160,11 @@ body {
   transition: backdrop-filter .5s;
 }
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Noto Sans TC" ,'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  /* margin-top: 60px; */
 }
 @media all and (max-width: 1919px) and (min-width: 1200px) {
   body {

@@ -10,16 +10,23 @@
     </el-row>
     <div class="hover-light-row">
       <el-row type="flex" justify="space-around">
-        <el-col class="hover-light" :span="6" v-for="(item) in categories[categoryIndex].items" :key="item.src">
-          <img src="@/assets/light_bg.png" alt="">
-          <el-button class="confirm-btn" @click="selectBrand(item.value)" :loading="loading">確認投票</el-button>
+        <el-col class="hover-light" 
+          :span="6" 
+          v-for="(item, index) in categories[categoryIndex].items" 
+          :key="item.src">
+          <img src="@/assets/light_bg.png" alt="" 
+            @mouseenter="addHover(index)" 
+            @mouseout="clearHover()">
+          <el-button class="confirm-btn"
+            @click="selectBrand(item.value)" 
+            :loading="loading">確認投票</el-button>
         </el-col>
       </el-row>
     </div>
     <div class="select-row">
       <el-row type="flex" justify="space-around">
-        <el-col :span="6" v-for="(item) in categories[categoryIndex].items" :key="item.src">
-          <div class="brand-img">
+        <el-col :span="6" v-for="(item, index) in categories[categoryIndex].items" :key="item.src">
+          <div class="brand-img" v-bind:class="{hover: (index === hoverIndex)}">
             <img :src="item.src" alt="">
           </div>
         </el-col>
@@ -35,12 +42,22 @@ export default {
   data() {
     return {
       loading: false,
+      hoverIndex: false,
     }
   },
   created() {},
+  computed: {},
   methods: {
     back() {
       this.$emit("back");
+    },
+    addHover(index) {
+      this.hoverIndex = index;
+      console.log(this.hoverIndex)
+    },
+    clearHover() {
+      this.hoverIndex = false
+      console.log(this.hoverIndex)
     },
     selectBrand(value) {
       this.loading = true;
@@ -59,6 +76,7 @@ export default {
     margin: 0;
     z-index: 10;
     position: relative;
+    cursor: pointer;
   }
   .label-badge {
     background-color: rgba(255,255,255,0.16);
@@ -111,8 +129,12 @@ export default {
     .brand-img {
       width: 100%;
       text-align: center;
+      opacity: 0.6;
       img {
         width: 60%;
+      }
+      &.hover {
+        opacity: 1;
       }
     }
   }

@@ -4,7 +4,9 @@
       <component 
         v-on:decision="makeDecision" 
         v-on:back="removeDecision" 
+        v-on:restart="restartDecision" 
         v-bind:category="select.category" 
+        v-bind:brand="select.brand" 
         v-bind:categoryIndex="categoryIndex" 
         v-bind:appScript="appScript"
         v-bind:summary="summary" 
@@ -45,12 +47,16 @@ export default {
     currentTabComponent: function() {
       
       if (this.step === 1) {
+        document.body.classList.add('bg-blur');
         return "step-1"
       } else if (this.step === 2) {
+        document.body.classList.add('bg-blur');
         return "step-2"
       } else if (this.step === 3) {
+        document.body.classList.add('bg-blur');
         return "step-3"
       } else if (this.step === 4) {
+        document.body.classList.remove('bg-blur');
         return "step-4"
       }
 
@@ -59,7 +65,7 @@ export default {
     }
   },
   mounted() {
-    document.body.classList.add('bg-blur');
+    
   },
   methods: {
     async makeDecision (decision) {
@@ -79,10 +85,21 @@ export default {
     removeDecision () {
       this.step -= 1
     },
+    restartDecision () {
+      console.log("restart")
+      this.step = 1
+      this.categoryIndex = 0;
+      this.select = {
+        category: false,
+        brand: false,
+      };
+    },
     async getSummary() {
       try {
         let summaryRef = await axios.get(this.appScript + "?sheetName=votes_summary")
         this.summary = summaryRef.data.values;
+        // remove sheet header
+        this.summary.shift();
         // console.log(this.summary);
       } catch (err) {
         console.log(err);
