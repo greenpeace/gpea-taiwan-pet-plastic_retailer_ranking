@@ -2,10 +2,10 @@
   <div class="select-brand">
     <el-row>
       <el-col :span="4">
-        <h2 class="title" @click="back()"><i class="el-icon-arrow-left"></i>{{categories[categoryIndex].title}}</h2>
+        <h2 class="title" @click="back()"><i class="fa fa-chevron-left" aria-hidden="true"></i>{{categories[categoryIndex].title}}</h2>
       </el-col>
       <el-col :span="7">
-        <p class="label-badge"><i class="el-icon-warning"></i> 選擇你認為最努力減塑的隊伍！</p>
+        <p class="label-badge"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> 選擇你認為最努力減塑的隊伍！</p>
       </el-col>
     </el-row>
     <div class="hover-light-row">
@@ -19,7 +19,9 @@
             @mouseout="clearHover()">
           <el-button class="confirm-btn"
             @click="selectBrand(item.value)" 
-            :loading="loading">確認投票</el-button>
+            v-bind:class="{loading: loading}">
+            <i v-if="loading" class="fa fa-spinner fa-spin" ></i> 確認投票
+          </el-button>
         </el-col>
       </el-row>
     </div>
@@ -45,8 +47,6 @@ export default {
       hoverIndex: false,
     }
   },
-  created() {},
-  computed: {},
   methods: {
     back() {
       this.$emit("back");
@@ -72,6 +72,8 @@ export default {
 .select-brand {
   color: white;
   padding: 4% 7%;
+  height: 100vh;
+  box-sizing: border-box;
   .title {
     margin: 0;
     z-index: 10;
@@ -113,10 +115,14 @@ export default {
         background-color: #ffb100;
         font-weight: bold;
         color: white;
-        font-size: 1.4rem;
+        font-size: 1.2rem;
+        border: none;
         cursor: pointer;
         &:hover {
           background-color: #f57f17;
+        }
+        &.loading {
+          background-color: #ef6c00;
         }
       }
     }

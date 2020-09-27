@@ -1,8 +1,10 @@
 <template>
   <div class="count-down">
-    <transition name="fade" mode="out-in">
-      <h1>{{second}}</h1>
-    </transition>
+    <div>
+      <transition name="fade" mode="out-in">
+        <h1>{{second}}</h1>
+      </transition>
+    </div>
   </div>
 </template>
 
@@ -36,20 +38,30 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .count-down {
-  display: flex;
-  // position: absolute;
+  background-image: url("../../assets/bg_mobile.png");
+  background-size: cover;
+  background-position: center -105px;
   text-align: center;
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
-  align-items: center;
+  height: 720px;
   color: white;
   overflow: hidden;
   transition: backdrop-filter .2s;
-  h1 {
+  * {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0,0,0,0.4);
+    backdrop-filter: blur(12px);
     width: 100%;
-    font-size: 10rem;
-  }
+    height: 720px;
+    h1 {
+      margin: 0;
+      width: 100%;
+      font-size: 10rem;
+    }
+  } 
 }
 </style>

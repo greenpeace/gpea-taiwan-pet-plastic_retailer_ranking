@@ -1,18 +1,20 @@
 <template>
   <div class="desktop">
-    <transition name="fade" mode="out-in">
-      <component 
-        v-on:decision="makeDecision" 
-        v-on:back="removeDecision" 
-        v-on:restart="restartDecision" 
-        v-bind:category="select.category" 
-        v-bind:brand="select.brand" 
-        v-bind:categoryIndex="categoryIndex" 
-        v-bind:appScript="appScript"
-        v-bind:summary="summary" 
-        v-bind:categories="categories" 
-        v-bind:is="currentTabComponent"></component>
-    </transition>
+    <div class="desktop-blur bg-blur">
+      <transition name="fade" mode="out-in">
+        <component 
+          v-on:decision="makeDecision" 
+          v-on:back="removeDecision" 
+          v-on:restart="restartDecision" 
+          v-bind:category="select.category" 
+          v-bind:brand="select.brand" 
+          v-bind:categoryIndex="categoryIndex" 
+          v-bind:appScript="appScript"
+          v-bind:summary="summary" 
+          v-bind:categories="categories" 
+          v-bind:is="currentTabComponent"></component>
+      </transition>
+    </div>
   </div>
 </template>
 
@@ -47,16 +49,18 @@ export default {
     currentTabComponent: function() {
       
       if (this.step === 1) {
-        document.body.classList.add('bg-blur');
+        if (document.querySelector('.desktop-blur')) {
+          document.querySelector('.desktop-blur').classList.add('bg-blur');
+        }
         return "step-1"
       } else if (this.step === 2) {
-        document.body.classList.add('bg-blur');
+        document.querySelector('.desktop-blur').classList.add('bg-blur');
         return "step-2"
       } else if (this.step === 3) {
-        document.body.classList.add('bg-blur');
+        document.querySelector('.desktop-blur').classList.add('bg-blur');
         return "step-3"
       } else if (this.step === 4) {
-        document.body.classList.remove('bg-blur');
+        document.querySelector('.desktop-blur').classList.remove('bg-blur');
         return "step-4"
       }
 
@@ -114,11 +118,12 @@ export default {
 .desktop {
   letter-spacing: 2pt;
   text-align: left;
-}
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .3s;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
+  height: 100vh;
+  background-image: url(../assets/bg.png);
+  background-position: center bottom;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 </style>

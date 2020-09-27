@@ -7,13 +7,17 @@
       v-on:submit="submitDecision" />
     <Mobile 
       v-else
-      v-bind:appScript="appScript" />
+      v-bind:appScript="appScript" 
+      v-bind:categories="categories" 
+      v-on:submit="submitDecision" />
+    <Footer v-bind:isDesktop="isDesktop" />
   </div>
 </template>
 
 <script>
 import Desktop from './views/Desktop.vue'
 import Mobile from './views/Mobile.vue'
+import Footer from './views/Footer.vue'
 import axios from 'axios'
 
 export default {
@@ -91,11 +95,12 @@ export default {
   components: {
     Desktop,
     Mobile,
+    Footer
   },
   computed: {
     isDesktop: function () {
       // console.log(window.innerWidth)
-      return (window.innerWidth >= 768)
+      return (window.innerWidth >= 992)
     }
   },
   async created() {
@@ -104,6 +109,9 @@ export default {
       let ipRes = await axios.get("https://api.ipify.org?format=json");
       this.ip = ipRes.data.ip;
       // on local env
+      if (process.env.NODE_ENV === "dev") {
+        this.appScript = this.corsAnyWhere + this.appScript;
+      }
       // this.appScript = this.corsAnyWhere + this.appScript;
       
     } catch (err) {
@@ -123,48 +131,56 @@ export default {
           ]
         }
 
-        await axios.post(this.appScript + `?sheetName=votes`, postData);
+        await axios.post(this.appScript + `?sheetName=votes`, postData, { headers: {'Content-Type': 'text/plain;charset=utf-8'}});
         // await this.getSummary();
 
       } catch (err) {
         console.log(err);
       }
     },
-    // async getSummary() {
-    //   try {
-    //     let summaryRef = await axios.get(this.appScript + "?sheetName=votes_summary")
-    //     this.summary = summaryRef.data.values;
-    //     console.log(this.summary);
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-    // },
   }
 }
 </script>
 
 <style lang="scss">
 body {
-  background-image: url(./assets/bg.png);
-  background-position: center bottom;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  height: 100vh;
+  font-family: "Noto Sans TC" ,'Avenir', Helvetica, Arial, sans-serif;
+  height: auto;
   margin: 0;
 }
+button {
+  font-family: "Noto Sans TC" ,'Avenir', Helvetica, Arial, sans-serif;
+}
+#mc-form {
+  display: none;
+}
 .bg-blur {
-  -webkit-backdrop-filter: blur(43.2px);
   backdrop-filter: blur(43.2px);
-  transition: backdrop-filter .5s;
+  -webkit-backdrop-filter: blur(43.2px);
 }
 #app {
   font-family: "Noto Sans TC" ,'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  // color: #2c3e50;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .3s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+
+@media all and (max-width: 991px) {
+  body {
+    font-size: 14px;
+  }
+}
+@media all and (min-width: 992px) and (min-width: 1200px) {
+  body {
+    font-size: 14px;
+  }
 }
 @media all and (max-width: 1919px) and (min-width: 1200px) {
   body {

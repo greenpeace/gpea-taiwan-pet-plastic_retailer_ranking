@@ -2,15 +2,15 @@
   <div class="select-category">
     <el-row>
       <el-col :span="12">
-        <h2 class="title">過去一年內，<br>哪間超市／超商／量販店<br>在減塑方面作出最多努力？</h2>
+        <h2 class="title">你認為過去一年內，<br>哪間超市／超商／量販店<br>在減塑方面做出最多努力？</h2>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="12">
-        <p class="description">投票後就能看見一年內，<strong>進步最多</strong>跟<strong>支持率最高</strong>的零售商是誰哦！</p>
+        <p class="description">投票後就能看見<strong>支持率最高</strong>的零售商是誰哦！</p>
       </el-col>
     </el-row>
-    <p class="label-badge"><i class="el-icon-warning"></i> 選擇類別，開始投票！</p>
+    <p class="label-badge"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> 選擇類別，開始投票！</p>
     <div class="hover-light-row">
       <div class="hover-light" v-bind:class="{ hover: category1Hover}" @click="selectCategory(0, '超商組')" @mouseenter="category1Hover = true" @mouseout="category1Hover = false">
         <img src="@/assets/light_bg.png" alt="">
@@ -67,9 +67,6 @@ export default {
       category3Hover: false,
     }
   },
-  created() {
-    
-  },
   methods: {
     selectCategory(index, value) {
       this.$emit("decision", { type: "category", option: value, index});
@@ -81,8 +78,11 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .select-category {
+  height: 100vh;
   color: white;
   padding: 4% 7% 0 7%;
+  box-sizing: border-box;
+  position: relative;
   @media (min-width: 1920px) {
     p {
       font-size: 1.2rem;
@@ -93,7 +93,7 @@ export default {
   }
   .label-badge {
     background-color: rgba(255,255,255,0.16);
-    padding: 7px;
+    padding: 7px 7px 7px 17px;
     border-radius: 50px;
     max-width: 280px;
   }
@@ -163,7 +163,7 @@ export default {
     }
   }
   .option-skirt {
-    position: fixed;
+    position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
