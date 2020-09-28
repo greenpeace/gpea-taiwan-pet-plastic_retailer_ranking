@@ -6,30 +6,30 @@
           <el-row :gutter="20">
             <el-col :sm="24" :md="{span: 8, offset: 3}">
               <el-button class="share-btn" 
-                @click="open('https://www.greenpeace.org/taiwan?utm_campaign=2020-plastic_retailer&utm_source=change.greenpeace.org.tw&utm_medium=referral&utm_content=footer_link')">主頁</el-button>
+                @click="open('https://www.greenpeace.org/taiwan?ref=2020-plastic_retailer')">主頁</el-button>
             </el-col>
             <el-col :sm="24" :md="10" v-if="isDesktop">
               <el-button class="share-btn" 
-                @click="open('http://act.greenpeace.org/page/45804/donate/1?utm_campaign=2020-plastic_retailer&utm_source=change.greenpeace.org.tw&utm_medium=referral&utm_content=footer_link')">支持我們</el-button>
+                @click="open('https://supporter.ea.greenpeace.org/tw/s/donate?ref=2020-plastic_retailer')">支持我們</el-button>
             </el-col>
           </el-row>
           <el-row :gutter="20" v-if="!isDesktop">
-            <el-col :sm="24" :md="10">
+            <el-col :sm="24" :md="{span: 10, offset: 3}">
               <el-button class="share-btn" 
-                @click="open('http://act.greenpeace.org/page/45804/donate/1?utm_campaign=2020-plastic_retailer&utm_source=change.greenpeace.org.tw&utm_medium=referral&utm_content=footer_link')">支持我們</el-button>
+                @click="open('https://supporter.ea.greenpeace.org/tw/s/donate?ref=2020-plastic_retailer')">支持我們</el-button>
             </el-col>
           </el-row>
           <el-row :gutter="20">
             <el-col :sm="{span: 24}" :md="{span: 21, offset: 3}" :lg="{span: 18, offset: 3}">
               <el-button class="share-btn" 
-                @click="open('https://www.greenpeace.org/taiwan/policies/privacy-and-cookies/?utm_campaign=2020-plastic_retailer&utm_source=change.greenpeace.org.tw&utm_medium=referral&utm_content=footer_link')">
+                @click="open('https://www.greenpeace.org/taiwan/policies/privacy-and-cookies/?ref=2020-plastic_retailer')">
                 隱私政策與個人資料收集聲明
               </el-button>
             </el-col>
           </el-row>
         </el-col>
         <el-col :sm="9">
-          <p class="footer-text">綠色和平致力於為地球發聲，我們的存在是因為脆弱的地球需要改變、需要行動。但保護地球的使命不能僅靠綠色和平來完成，「您」就是改變世界的力量！</p>
+          <p class="footer-text">綠色和平致力於為地球發聲，我們的存在是因為脆弱的地球需要改變、需要行動。但保護地球的使命不能僅靠綠色和平來完成，您就是改變世界的力量！</p>
         </el-col>
         <el-col :sm="6" :md="{span: 4, offset: 2}">
           <p class="footer-text">© 2020 Greenpeace</p>

@@ -30,7 +30,11 @@
       class="share-dialog"
       :visible.sync="dialogVisible"
       :append-to-body="true"
+      :show-close="false"
       width="50%">
+      <div class="close">
+        <i @click="dialogVisible = false"  class="fa fa-times" aria-hidden="true"></i>
+      </div>
       <h2>感謝您的投票！我們將在近期公布各間零售企業的減塑評分<br>您可以追蹤我們，關注最新減塑及其他環境資訊！</h2>
       <br>
       <el-row :gutter="20">
@@ -124,6 +128,13 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .share-dialog {
+  .close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 20px;
+    cursor: pointer;
+  }
   h2 {
     text-align: center;
   }

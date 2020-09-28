@@ -79,7 +79,8 @@ export default {
         this.step = 2;
       } else if (decision.type === "brand") {
         this.select.brand = decision.option;
-        this.$emit("submit", this.select);
+        // await this.$emit("submit", this.select);
+        await this.submitDecision(this.select);
         await this.getSummary();
         this.step = 3;
       } else if (decision.type === "summary") {
@@ -105,6 +106,24 @@ export default {
         // remove sheet header
         this.summary.shift();
         // console.log(this.summary);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async submitDecision(value) {
+      try {
+        let postData = {
+          "rows": [
+            {
+              "ip": this.ip,
+              "category": value.category,
+              "brand": value.brand
+            }
+          ]
+        }
+
+        await axios.post(this.appScript + `?sheetName=votes`, postData, { headers: {'Content-Type': 'text/plain;charset=utf-8'}});
+
       } catch (err) {
         console.log(err);
       }

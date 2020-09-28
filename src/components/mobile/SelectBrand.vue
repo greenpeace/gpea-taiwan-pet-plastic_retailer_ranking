@@ -39,7 +39,7 @@
       <div class="option-title">
         <h2>{{ selectedBrand.value }}</h2>
         <el-button class="option-btn" @click="selectBrand">
-          前往投票
+          <i v-if="loading" class="fa fa-spinner fa-spin" ></i> 前往投票
         </el-button>
       </div>
     </div>
@@ -57,6 +57,7 @@ export default {
   components: { Slick },
   data() {
     return {
+      loading: false,
       slickOptions: {
         infinite: true,
         centerPadding: "70px",
@@ -76,6 +77,7 @@ export default {
   },
   mounted() {
     this.handleAfterChange(undefined, undefined, 0);
+    document.body.scrollTop = 0
   },
   methods: {
     back() {
@@ -96,7 +98,8 @@ export default {
       document.querySelector(".slick-current").classList.add('active');
     },
     selectBrand() {
-      document.querySelector(".slider-row").classList.add('transparent');
+      // document.querySelector(".slider-row").classList.add('transparent');
+      this.loading = true
       this.$emit("decision", { type: "brand", option: this.selectedBrand.value});
     },
   }

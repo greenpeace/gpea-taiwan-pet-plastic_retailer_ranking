@@ -3,13 +3,11 @@
     <Desktop 
       v-if="isDesktop" 
       v-bind:appScript="appScript" 
-      v-bind:categories="categories" 
-      v-on:submit="submitDecision" />
+      v-bind:categories="categories" />
     <Mobile 
       v-else
       v-bind:appScript="appScript" 
-      v-bind:categories="categories" 
-      v-on:submit="submitDecision" />
+      v-bind:categories="categories" />
     <Footer v-bind:isDesktop="isDesktop" />
   </div>
 </template>
@@ -119,25 +117,7 @@ export default {
     }
   },
   methods: {
-    async submitDecision(value) {
-      try {
-        let postData = {
-          "rows": [
-            {
-              "ip": this.ip,
-              "category": value.category,
-              "brand": value.brand
-            }
-          ]
-        }
-
-        await axios.post(this.appScript + `?sheetName=votes`, postData, { headers: {'Content-Type': 'text/plain;charset=utf-8'}});
-        // await this.getSummary();
-
-      } catch (err) {
-        console.log(err);
-      }
-    },
+    //
   }
 }
 </script>
