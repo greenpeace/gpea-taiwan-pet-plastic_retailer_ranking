@@ -3,10 +3,12 @@
     <Desktop 
       v-if="isDesktop" 
       v-bind:appScript="appScript" 
+      v-bind:ip="ip" 
       v-bind:categories="categories" />
     <Mobile 
       v-else
       v-bind:appScript="appScript" 
+      v-bind:ip="ip" 
       v-bind:categories="categories" />
     <Footer v-bind:isDesktop="isDesktop" />
   </div>
