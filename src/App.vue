@@ -1,20 +1,24 @@
 <template>
   <div id="app">
-    <Desktop 
-      v-if="isDesktop" 
-      v-bind:appScript="appScript" 
-      v-bind:ip="ip" 
-      v-bind:categories="categories" />
-    <Mobile 
-      v-else
-      v-bind:appScript="appScript" 
-      v-bind:ip="ip" 
-      v-bind:categories="categories" />
+    <Landing />
+      <div id="voting">
+        <Desktop 
+          v-if="isDesktop" 
+          v-bind:appScript="appScript" 
+          v-bind:ip="ip" 
+          v-bind:categories="categories" />
+        <Mobile 
+          v-else
+          v-bind:appScript="appScript" 
+          v-bind:ip="ip" 
+          v-bind:categories="categories" />
+      </div>
     <Footer v-bind:isDesktop="isDesktop" />
   </div>
 </template>
 
 <script>
+import Landing from './views/Landing.vue'
 import Desktop from './views/Desktop.vue'
 import Mobile from './views/Mobile.vue'
 import Footer from './views/Footer.vue'
@@ -22,6 +26,12 @@ import axios from 'axios'
 
 export default {
   name: 'app',
+  components: {
+    Desktop,
+    Mobile,
+    Footer,
+    Landing
+  },
   data() {
     return {
       ip: "",
@@ -92,11 +102,6 @@ export default {
       ],
     }
   },
-  components: {
-    Desktop,
-    Mobile,
-    Footer
-  },
   computed: {
     isDesktop: function () {
       // console.log(window.innerWidth)
@@ -119,7 +124,12 @@ export default {
     }
   },
   methods: {
-    //
+    toNext() {
+      console.log("next")
+      var container = this.$el.querySelector("#landing");
+      console.log(container)
+      container.scrollTop = container.scrollHeight;
+    }
   }
 }
 </script>
@@ -154,6 +164,99 @@ button {
   opacity: 0;
 }
 
+.tooltip {
+  display: block !important;
+  z-index: 10000;
+
+  .tooltip-inner {
+    background: white;
+    color: #4a4a4a;
+    border-radius: 16px;
+    padding: 5px 30px 4px;
+    max-width: 600px;
+  }
+
+  .tooltip-arrow {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    position: absolute;
+    margin: 5px;
+    border-color: black;
+  }
+
+  &[x-placement^="top"] {
+    margin-bottom: 5px;
+
+    .tooltip-arrow {
+      border-width: 5px 5px 0 5px;
+      border-left-color: transparent !important;
+      border-right-color: transparent !important;
+      border-bottom-color: transparent !important;
+      bottom: -5px;
+      left: calc(50% - 5px);
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  }
+
+  &[x-placement^="bottom"] {
+    margin-top: 5px;
+
+    .tooltip-arrow {
+      border-width: 0 5px 5px 5px;
+      border-left-color: transparent !important;
+      border-right-color: transparent !important;
+      border-top-color: transparent !important;
+      top: -5px;
+      left: calc(50% - 5px);
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  }
+
+  &[x-placement^="right"] {
+    margin-left: 5px;
+
+    .tooltip-arrow {
+      border-width: 5px 5px 5px 0;
+      border-left-color: transparent !important;
+      border-top-color: transparent !important;
+      border-bottom-color: transparent !important;
+      left: -5px;
+      top: calc(50% - 5px);
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+
+  &[x-placement^="left"] {
+    margin-right: 5px;
+
+    .tooltip-arrow {
+      border-width: 5px 0 5px 5px;
+      border-top-color: transparent !important;
+      border-right-color: transparent !important;
+      border-bottom-color: transparent !important;
+      right: -5px;
+      top: calc(50% - 5px);
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+
+  &[aria-hidden='true'] {
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity .15s, visibility .15s;
+  }
+
+  &[aria-hidden='false'] {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity .15s;
+  }
+}
 @media all and (max-width: 991px) {
   body {
     font-size: 14px;

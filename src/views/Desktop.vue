@@ -135,6 +135,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .desktop {
+  position: relative;
   letter-spacing: 2pt;
   text-align: left;
   height: 100vh;

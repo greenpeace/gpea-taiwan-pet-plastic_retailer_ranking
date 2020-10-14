@@ -1,23 +1,37 @@
 <template>
   <div class="summary">
-    <!-- <el-switch
-      v-model="mode"
-      active-color="#13ce66"
-      inactive-color="#ff4949">
-    </el-switch> -->
     <div class="float-btn">
-      <h2 @click="restart">看看其他組賽況 <i class="fa fa-chevron-right" aria-hidden="true"></i></h2>
+      <div class="floating-switch" @click="changeType">
+        <div v-bind:class="{active: summaryType === 'score'}" class="switch-btn">減塑得分</div>
+        <div v-bind:class="{active: summaryType === 'support'}" class="switch-btn">網路支持率</div>
+      </div>
+      <h4 @click="restart">看看其他組賽況 <i class="fa fa-chevron-right" aria-hidden="true"></i></h4>
     </div>
-    <div class="runner-row" v-bind:style="runnerRow">
+    <div class="runner-row" v-bind:style="runnerRow">      
       <div class="runner-container"  
         v-for="(item) in selectedSummary" 
         :key="item.index" 
         v-bind:class="{ selected: item.selected}">
         <h3 class="runner-title">{{item.brand}}<br> <i class="fa fa-caret-down" aria-hidden="true"></i> </h3>
-        <h6>網路支持率 
-          <!-- <i class="el-icon-question"></i> -->
+        <h6>
+          <!-- {{summaryType === 'support' ? "網路支持率" : "減塑得分"}} <i class="el-icon-question tooltip-target"></i> -->
+          <v-popover offset="16">
+            {{summaryType === 'support' ? "網路支持率" : "減塑得分"}} <i class="el-icon-question tooltip-target"></i>
+            <template slot="popover">
+              <div class="popover-container">
+                <h2>{{item.brand}}</h2>
+                <div class="score-row">
+                  <p>減塑整體得分</p>
+                  <h1>{{item.score}}</h1>
+                  <p>網路支持率</p>
+                  <h1>{{item.percent}}</h1>
+                </div>  
+                <p>{{item.description}}</p>
+              </div>
+            </template>
+          </v-popover>
         </h6>
-        <h1 class="runner-score">{{item.percent}}</h1>
+        <h1 class="runner-score">{{summaryType === 'support' ? item.percent : item.score}}</h1>
         <img class="runner-img" :src="item.runnerSrc" alt="">
         <div class="runner-path" v-bind:class="{ selected: item.selected}" v-bind:style="{height: item.height}"></div>
       </div>
@@ -60,6 +74,7 @@ export default {
     return {
       mode: "",
       dialogVisible: false,
+      summaryType: "score", // support
       summaryJson: {},
       selectedSummary: [],
     }
@@ -85,6 +100,9 @@ export default {
         brand: this.summary[i][1],
         count: this.summary[i][2],
         score: this.summary[i][3], // 減塑得分
+        description: this.summary[i][4],
+        advantage: this.summary[i][5],
+        disadvantage: this.summary[i][6],
         runnerSrc: targetCategoryItems.srcSummary,
         selected: (this.brand === this.summary[i][1]),
       }
@@ -97,18 +115,14 @@ export default {
     }
 
     this.selectedSummary = this.summaryJson[this.categories[this.categoryIndex].title]
-
-    
-    let total = _.sumBy(this.selectedSummary, "count");
     
     this.selectedSummary.forEach(item => {
-      item.percent = `${((item.count / total) * 100).toFixed(2)}%`;
+      item.total = _.sumBy(this.selectedSummary, "count");
+      item.percent = `${((item.count / item.total) * 100).toFixed(2)}%`;
     });
+    console.log(this.selectedSummary)
     setTimeout(() => {
-      this.selectedSummary = this.selectedSummary.map((item) => {
-        item.height = `${((item.count / total) * 100 / 2.2).toFixed(2)}vh`;
-        return item
-      });  
+      this.bindChart();
     }, 500)
     setTimeout(() => {
       this.dialogVisible = true  
@@ -117,6 +131,28 @@ export default {
   methods: {
     restart() {
       this.$emit("restart");
+    },
+    changeType() {
+      if (this.summaryType === "score") {
+        this.summaryType = "support"
+      } else {
+        this.summaryType = "score"
+      }
+      this.bindChart();
+      console.log(this.summaryType)
+    },
+    bindChart() {
+      if (this.summaryType === "support") {
+        this.selectedSummary = this.selectedSummary.map((item) => {
+          item.height = `${((item.count / item.total) * 100 / 2.2).toFixed(2)}vh`;
+          return item
+        });
+      } else {
+        this.selectedSummary = this.selectedSummary.map((item) => {
+          item.height = `${((item.score / 60) * 100 / 2).toFixed(2)}vh`;
+          return item
+        });
+      }
     },
     open(url) {
       window.open(url, "_blank")
@@ -127,6 +163,20 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+.popover-container {
+  .score-row {
+    display: flex;
+    align-items: baseline;
+    h1 {
+      margin: unset;
+      margin-right: 40px;
+    }
+    * {
+      padding: 10px;
+    }
+  }
+  font-size: 1rem;
+}
 .share-dialog {
   .close {
     position: absolute;
@@ -158,15 +208,38 @@ export default {
   overflow: hidden;
   z-index: 0;
   .float-btn {
-    position: fixed;
-    top: 5%;
-    right:10%;
-    z-index: 10;
+    position: absolute;
     cursor: pointer;
+    top: 5%;
+    right: 5%;
+    z-index: 10;
+    font-size: 0.8rem;
+    .floating-switch {
+      background-color: white;
+      border-radius: 50px;
+      padding: 5px;
+      display: flex;
+      .switch-btn {
+        transition: all 0.3s ease-in;
+        border: none;
+        border-radius: 50px;
+        padding: 8px 10px;
+        font-weight: bolder;
+        margin-left: 0;
+        color: #a7a7a7;
+        &.active {
+          background-color: #ffb100;
+          color: white;
+        }
+      }
+    }
   }
   @media (min-width: 1920px) {
     .runner-row {
       bottom: 0.4vw;
+    }
+    .float-btn {
+      font-size: 1rem;
     }
   }
   .runner-row {
@@ -203,7 +276,7 @@ export default {
         color: #ffb100;
       }
       .runner-score {
-        transform: scale(1.2);
+        transform: scale(1.4);
         font-weight: bold;
       }
       .runner-img {
