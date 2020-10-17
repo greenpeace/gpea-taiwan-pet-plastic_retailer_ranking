@@ -4,12 +4,16 @@ import VueRouter from 'vue-router'
 import './plugins/element.js'
 import VTooltip from 'v-tooltip'
 
-Vue.use(VTooltip)
-var VueScrollTo = require('vue-scrollto');
-Vue.config.productionTip = false
+global.jQuery = require('jquery');
+var $ = global.jQuery;
+window.$ = $;
 
+var VueScrollTo = require('vue-scrollto');
 Vue.use(VueRouter)
 Vue.use(VueScrollTo)
+Vue.use(VTooltip, {popover: {
+  defaultPlacement: "right",
+}})
 
 const router = new VueRouter({
   mode: 'hash',

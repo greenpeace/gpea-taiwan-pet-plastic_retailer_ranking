@@ -9,6 +9,9 @@
           <img src="../assets/logo_black.png" width="100%" alt="">
         </div>
         <el-row>
+          <el-col :sm="6">
+            <img src="../assets/logan.png" width="100%" alt="">
+          </el-col>
           <el-col :sm="24">
             <h1>我們願意，零售企業你願意嗎？</h1>
           </el-col>
@@ -74,7 +77,7 @@ export default {
   .cover {
     transition: all .5s ease;
     position: relative;
-    padding: 10%;
+    padding: 5% 10%;
     height: 100vh;
     background-color: rgba(#fff, 0.75);
     .floating-logo {
@@ -85,7 +88,7 @@ export default {
       width: 30%
     }
     .confirm-btn {
-      padding: 10px 40px;
+      padding: 20px 40px;
       border-radius: 34px;
       background-color: #ffb100;
       font-weight: bold;

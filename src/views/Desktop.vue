@@ -85,6 +85,7 @@ export default {
         this.step = 3;
       } else if (decision.type === "summary") {
         this.step = 4;
+        this.$emit("showForm");
       }
     },
     removeDecision () {

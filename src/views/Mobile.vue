@@ -75,6 +75,7 @@ export default {
         await this.getSummary();
         this.step = 3;
       } else if (decision.type === "summary") {
+        this.$emit("showForm");
         this.step = 4;
       }
     },

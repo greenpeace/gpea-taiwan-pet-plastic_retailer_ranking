@@ -1,5 +1,5 @@
 <template>
-  <div class="summary">
+  <div class="summary" id="summary">
     <div class="float-btn">
       <div class="floating-switch" @click="changeType">
         <div v-bind:class="{active: summaryType === 'score'}" class="switch-btn">減塑得分</div>
@@ -27,6 +27,22 @@
                   <h1>{{item.percent}}</h1>
                 </div>  
                 <p>{{item.description}}</p>
+                <div class="advantage">
+                  <div class="icon">
+                    <img src="../../assets/good.png" alt="">
+                  </div>
+                  <div class="content">
+                    <h3>很棒！做得好！</h3>{{item.advantage}}
+                  </div>
+                </div>
+                <div class="disadvantage">
+                  <div class="icon">
+                    <img src="../../assets/bad.png" alt="">
+                  </div>
+                  <div class="content">
+                    <h3>加油！可以做更好！</h3>{{item.disadvantage}}
+                  </div>
+                </div>
               </div>
             </template>
           </v-popover>
@@ -91,6 +107,7 @@ export default {
     }
   },
   mounted() {
+    this.$scrollTo("#summary")
     for (let i in this.summary) {
       let targetCategory = _.find(this.categories, {title: this.summary[i][0]});
       let targetCategoryItems = _.find(targetCategory.items, {value: this.summary[i][1]});
@@ -163,19 +180,43 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+@media (min-width: 1920px) {
+  .popover-container {
+    font-size: 1rem;
+  }    
+}
 .popover-container {
+  h2 {
+    color: #4a4a4a;
+  }
+  letter-spacing: 1pt;
+  color: #969696;
   .score-row {
     display: flex;
     align-items: baseline;
     h1 {
+      color: #4a4a4a;
       margin: unset;
       margin-right: 40px;
-    }
-    * {
-      padding: 10px;
+      margin-left: 20px;
     }
   }
-  font-size: 1rem;
+  .advantage, .disadvantage {
+    display: flex;
+    padding: 20px 0;
+    .icon {
+      max-width: 50px;
+      margin-right: 10px;
+    }
+    .content {
+      h3 {
+        color: #4a4a4a;
+        margin: unset;
+        margin-bottom: 10px;
+      }
+      margin: 0;
+    }
+  }
 }
 .share-dialog {
   .close {

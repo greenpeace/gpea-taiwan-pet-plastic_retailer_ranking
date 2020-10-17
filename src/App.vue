@@ -1,24 +1,28 @@
 <template>
   <div id="app">
     <Landing />
-      <div id="voting">
-        <Desktop 
-          v-if="isDesktop" 
-          v-bind:appScript="appScript" 
-          v-bind:ip="ip" 
-          v-bind:categories="categories" />
-        <Mobile 
-          v-else
-          v-bind:appScript="appScript" 
-          v-bind:ip="ip" 
-          v-bind:categories="categories" />
-      </div>
+    <div id="voting">
+      <Desktop 
+        v-if="isDesktop" 
+        v-on:showForm="showForm" 
+        v-bind:appScript="appScript" 
+        v-bind:ip="ip" 
+        v-bind:categories="categories" />
+      <Mobile 
+        v-else
+        v-on:showForm="showForm" 
+        v-bind:appScript="appScript" 
+        v-bind:ip="ip" 
+        v-bind:categories="categories" />
+    </div>
+    <Intro v-if="introShow" />
     <Footer v-bind:isDesktop="isDesktop" />
   </div>
 </template>
 
 <script>
 import Landing from './views/Landing.vue'
+import Intro from './views/Intro.vue'
 import Desktop from './views/Desktop.vue'
 import Mobile from './views/Mobile.vue'
 import Footer from './views/Footer.vue'
@@ -30,11 +34,13 @@ export default {
     Desktop,
     Mobile,
     Footer,
-    Landing
+    Landing,
+    Intro
   },
   data() {
     return {
       ip: "",
+      introShow: false,
       appScript: "https://script.google.com/macros/s/AKfycbw8XjIKnkXAGjIMltyqQ4IE5n29puZEkkvKPSwOUMwQ7O6erUD3/exec",
       corsAnyWhere: "https://cors-anywhere.small-service.gpeastasia.org/",
       // summary: [],
@@ -118,12 +124,17 @@ export default {
         this.appScript = this.corsAnyWhere + this.appScript;
       }
       // this.appScript = this.corsAnyWhere + this.appScript;
-      
     } catch (err) {
       console.log(err);
     }
   },
+  mounted() {
+    this.$scrollTo("#app")
+  },
   methods: {
+    showForm () {
+      this.introShow = true;
+    },
     toNext() {
       console.log("next")
       var container = this.$el.querySelector("#landing");
@@ -257,6 +268,30 @@ button {
     transition: opacity .15s;
   }
 }
+
+.el-input__inner {
+  border: none !important;
+  border-bottom: 1px solid grey !important;
+  border-radius: unset !important;
+  height: 30px !important;
+  &:focus {
+    border-bottom: 1px solid #ffb100 !important;
+  }
+}
+.el-form-item__label {
+  padding: unset !important;
+  height: 25px !important;
+}
+.el-form-item {
+  margin-bottom: 12px !important;
+}
+
+.el-checkbox__inner {
+  background-color: #ffb100 !important;
+  border-color: #ffb100 !important;
+  // color: #ffb100 !important;
+}
+
 @media all and (max-width: 991px) {
   body {
     font-size: 14px;
