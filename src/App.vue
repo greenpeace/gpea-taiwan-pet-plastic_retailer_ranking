@@ -15,14 +15,14 @@
         v-bind:ip="ip" 
         v-bind:categories="categories" />
     </div>
-    <Intro v-if="introShow" />
+    <IntroAndForm v-if="introShow" />
     <Footer v-bind:isDesktop="isDesktop" />
   </div>
 </template>
 
 <script>
 import Landing from './views/Landing.vue'
-import Intro from './views/Intro.vue'
+import IntroAndForm from './views/IntroAndForm.vue'
 import Desktop from './views/Desktop.vue'
 import Mobile from './views/Mobile.vue'
 import Footer from './views/Footer.vue'
@@ -35,12 +35,12 @@ export default {
     Mobile,
     Footer,
     Landing,
-    Intro
+    IntroAndForm
   },
   data() {
     return {
       ip: "",
-      introShow: false,
+      introShow: true,
       appScript: "https://script.google.com/macros/s/AKfycbw8XjIKnkXAGjIMltyqQ4IE5n29puZEkkvKPSwOUMwQ7O6erUD3/exec",
       corsAnyWhere: "https://cors-anywhere.small-service.gpeastasia.org/",
       // summary: [],

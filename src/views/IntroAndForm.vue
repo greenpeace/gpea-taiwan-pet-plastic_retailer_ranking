@@ -35,8 +35,31 @@
         <!-- form -->
         <el-col :sm="12">
           <div class="form-container">
+            <!-- progress bar -->
             <div class="progress-bar-container">
-
+              <el-row :gutter="15">
+                <el-col :span="18">
+                  <div class="progress-title">當前連署進度</div>
+                  <div class="progress-bar">
+                    <div class="progress-bar-outer">
+                      <div class="fish-icon" v-bind:style="{left: progressBarFishPos}">
+                        <img src="../assets/fish.png" width="100%" alt="">
+                        <img src="../assets/bubble.png" class="bubble" width="100%" alt="">
+                      </div>
+                      <div class="progress-bar-inner" v-bind:style="{width: progressBarWidth}"></div>
+                    </div>
+                  </div>
+                </el-col>
+                <el-col :span="6" class="progress-number">
+                  <h3>
+                    <animated-number
+                      :value="progressNumber"
+                      :formatValue="formatToPrice"
+                      :duration="1000"  />
+                  </h3>
+                  <h6> / {{progressGoal}}</h6>
+                </el-col>
+              </el-row>
             </div>
             <transition name="el-fade-in">
               <div class="form" v-if="!formComplete" v-loading="formLoading">
@@ -45,9 +68,7 @@
                   :rules="rules"
                   ref="ruleForm"
                   label-width="120px"
-                  label-position="top"
-                  class="NotoSansCJKtc-Regular"
-                >
+                  label-position="top">
                   <el-form-item label="電子信箱" prop="email" required>
                     <el-input autocomplete="on" placeholder="greenpeace@gmail.com" v-model="ruleForm.email"></el-input>
                   </el-form-item>
@@ -120,10 +141,14 @@
 
 <script>
 import dayjs from "dayjs"
+import AnimatedNumber from "animated-number-vue";
 var Mailcheck = require("mailcheck");
 
 export default {
   name: 'Intro',
+  components: {
+    AnimatedNumber
+  },
   props: {
     msg: String
   },
@@ -153,6 +178,8 @@ export default {
       show: false,
       formComplete: false,
       formLoading: false,
+      progressNumber: 1200,
+      progressGoal: 200000,
       ruleForm: {
         email: "",
         lastName: "",
@@ -202,10 +229,27 @@ export default {
       }
     }
   },
+  computed: {
+    progressBarWidth: function () {
+      return ((this.progressNumber / this.progressGoal) * 100 ).toString() + "%";
+    },
+    progressBarFishPos: function () {
+      return ((this.progressNumber / this.progressGoal) * 100 - 10).toString() + "%";
+    },
+  },
   mounted() {
     this.show = true;
+    setTimeout(() => {
+      this.progressNumber = 12000;
+    }, 2000)
   },
   methods: {
+    formatToPrice(value) {
+      // console.log(value)
+      var parts = value.toString().split(".");
+      parts[0]=parts[0].replace(/\B(?=(\d{3})+(?!\d))/g,",");
+      return parts[0]
+    },
     submitForm(formName) {
       // console.log((this.ruleForm.moreInfo ? "Y" : "N"));
       this.$refs[formName].validate((valid) => {
@@ -334,9 +378,6 @@ export default {
  .checkbox-text {
    font-size: 0.8rem;
  } 
- .progress-bar-container {
-    height: 150px !important;
-  }
  .form-container {
    min-height: 850px !important;
  }
@@ -400,7 +441,48 @@ export default {
       overflow: hidden;
       .progress-bar-container {
         background-color: #f4f4f4;
+        color: #a7a7a7;
         height: 100px;
+        padding: 5%;
+        .progress-title {
+          font-size: 1rem;
+        }
+        .progress-number {
+          text-align: right;
+          h3, h6 {
+            margin: 10px;
+          }
+        }
+        .progress-bar {
+          width: 100%;
+          margin-top: 60px;
+          .progress-bar-outer {
+            position: relative;
+            width: 100%;
+            height: 10px;
+            background-color: white;
+            border-radius: 10px;
+            .fish-icon {
+              transition: all 1s ease-in-out;
+              position: absolute;
+              left: 0;
+              transform: translateY(-35%);
+              width: 25%;
+              .bubble {
+                width: 15%;
+                position: absolute;
+                transform: translate(-140%, -90%);
+              }
+            }
+            .progress-bar-inner {
+              transition: all 1s ease-in-out;
+              background-color: #192555;
+              width: 0;
+              height: inherit;
+              border-radius: 10px;
+            }
+          }
+        }
       }
       .form {
         padding: 4% 10%;
