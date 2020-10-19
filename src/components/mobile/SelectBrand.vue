@@ -38,7 +38,7 @@
     <div class="option-row">
       <div class="option-title">
         <h2>{{ selectedBrand.value }}</h2>
-        <el-button class="option-btn" @click="selectBrand">
+        <el-button class="option-btn" @click="selectBrand" :disabled="loading">
           <i v-if="loading" class="fa fa-spinner fa-spin" ></i> 前往投票
         </el-button>
       </div>

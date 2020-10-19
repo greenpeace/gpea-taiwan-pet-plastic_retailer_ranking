@@ -19,7 +19,8 @@
     </div>
     <!-- <img :src="this.categories[this.categoryIndex].items[0].srcSummary" alt=""> -->
     <div class="float-share-btn">
-      <el-button @click="shareDialogVisible = true"><i class="fa fa-share-alt"  aria-hidden="true"></i></el-button>
+      <small>*此評分結果為截至2020年10月12日零售通路企業回覆資料之統整結果</small>
+      <!-- <el-button @click="shareDialogVisible = true"><i class="fa fa-share-alt"  aria-hidden="true"></i></el-button> -->
     </div>
     <!-- share dialog -->
     <el-dialog
@@ -94,7 +95,7 @@
                 <img src="../../assets/good.png" alt="">
               </div>
               <div class="content">
-                <h3>很棒！做得好！</h3>{{info.advantage}}
+                <h3>很棒！做得好！</h3><span v-html="info.advantage"></span>
               </div>
             </div>
             <div class="disadvantage">
@@ -102,7 +103,7 @@
                 <img src="../../assets/bad.png" alt="">
               </div>
               <div class="content">
-                <h3>加油！可以做更好！</h3>{{info.disadvantage}}
+                <h3>加油！一定要做更好哦！</h3><span v-html="info.disadvantage"></span>
               </div>
             </div>
           </div>
@@ -154,8 +155,8 @@ export default {
         count: this.summary[i][2],
         score: this.summary[i][3], // 減塑得分
         description: this.summary[i][4],
-        advantage: this.summary[i][5],
-        disadvantage: this.summary[i][6],
+        advantage: `<ul style="padding-left: 0;">${this.summary[i][5].split("-").map(item => {if (item) {return `<li>${item}</li>`}}).join("")}</ul>`,
+        disadvantage: `<ul style="padding-left: 0;">${this.summary[i][6].split("-").map(item => {if (item) {return `<li>${item}</li>`}}).join("")}</ul>`,
         runnerSrc: targetCategoryItems.srcSummary,
         selected: (this.brand === this.summary[i][1]),
       }
@@ -177,9 +178,9 @@ export default {
     setTimeout(() => {
       this.bindChart();
     }, 500)
-    setTimeout(() => {
-      this.dialogVisible = true  
-    }, 4000)
+    // setTimeout(() => {
+    //   this.dialogVisible = true  
+    // }, 4000)
   },
   methods: {
     restart() {
@@ -342,8 +343,11 @@ export default {
 
 .float-share-btn {
   position: absolute;
+  transform: scale(0.8, 0.8);
   bottom: 10px;
-  right: 20px;
+  right: 0;
+  text-align: right;
+  white-space: nowrap;
   .el-button {
     background-color: transparent;
     color: white;

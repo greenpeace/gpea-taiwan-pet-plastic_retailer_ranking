@@ -19,7 +19,8 @@
             @mouseout="clearHover()">
           <el-button class="confirm-btn"
             @click="selectBrand(item.value)" 
-            v-bind:class="{loading: loading}">
+            v-bind:class="{loading: loading}"
+            :disabled="loading">
             <i v-if="loading" class="fa fa-spinner fa-spin" ></i> 確認投票
           </el-button>
         </el-col>

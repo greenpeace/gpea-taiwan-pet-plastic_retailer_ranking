@@ -9,14 +9,18 @@
     </div>
     <div class="runner-row" v-bind:style="runnerRow">      
       <div class="runner-container"  
-        v-for="(item) in selectedSummary" 
+        v-for="(item, index) in selectedSummary" 
         :key="item.index" 
         v-bind:class="{ selected: item.selected}">
         <h3 class="runner-title">{{item.brand}}<br> <i class="fa fa-caret-down" aria-hidden="true"></i> </h3>
         <h6>
           <!-- {{summaryType === 'support' ? "網路支持率" : "減塑得分"}} <i class="el-icon-question tooltip-target"></i> -->
-          <v-popover offset="16">
-            {{summaryType === 'support' ? "網路支持率" : "減塑得分"}} <i class="el-icon-question tooltip-target"></i>
+          <v-popover 
+            offset="16"
+            trigger="manual"
+            :open="isOpen === index"
+            :auto-hide="false">
+            {{summaryType === 'support' ? "網路支持率" : "減塑得分"}} <i class="fa fa-question-circle tooltip-target" aria-hidden="true" @mouseover="isOpen = index" @mouseout="isOpen = false"></i>
             <template slot="popover">
               <div class="popover-container">
                 <h2>{{item.brand}}</h2>
@@ -32,7 +36,7 @@
                     <img src="../../assets/good.png" alt="">
                   </div>
                   <div class="content">
-                    <h3>很棒！做得好！</h3>{{item.advantage}}
+                    <h3>很棒！做得好！</h3><span v-html="item.advantage"></span>
                   </div>
                 </div>
                 <div class="disadvantage">
@@ -40,7 +44,7 @@
                     <img src="../../assets/bad.png" alt="">
                   </div>
                   <div class="content">
-                    <h3>加油！可以做更好！</h3>{{item.disadvantage}}
+                    <h3>加油！一定要做更好哦！</h3><span v-html="item.disadvantage"></span>
                   </div>
                 </div>
               </div>
@@ -54,7 +58,8 @@
     </div>
     <!-- <img :src="this.categories[this.categoryIndex].items[0].srcSummary" alt=""> -->
     <div class="float-share-btn">
-      <el-button @click="dialogVisible = true"><i class="fa fa-share-alt"  aria-hidden="true"></i></el-button>
+      <small>*此評分結果為截至2020年10月12日零售通路企業回覆資料之統整結果</small>
+      <!-- <el-button @click="dialogVisible = true"><i class="fa fa-share-alt"  aria-hidden="true"></i></el-button> -->
     </div>
     <el-dialog
       class="share-dialog"
@@ -89,6 +94,7 @@ export default {
   data() {
     return {
       mode: "",
+      isOpen: false,
       dialogVisible: false,
       summaryType: "score", // support
       summaryJson: {},
@@ -118,12 +124,11 @@ export default {
         count: this.summary[i][2],
         score: this.summary[i][3], // 減塑得分
         description: this.summary[i][4],
-        advantage: this.summary[i][5],
-        disadvantage: this.summary[i][6],
+        advantage: `<ul style="padding-left: 20px;">${this.summary[i][5].split("-").map(item => {if (item) {return `<li>${item}</li>`}}).join("")}</ul>`,
+        disadvantage: `<ul style="padding-left: 20px;">${this.summary[i][6].split("-").map(item => {if (item) {return `<li>${item}</li>`}}).join("")}</ul>`,
         runnerSrc: targetCategoryItems.srcSummary,
         selected: (this.brand === this.summary[i][1]),
       }
-
       if (!this.summaryJson[this.summary[i][0]]) {
         this.summaryJson[this.summary[i][0]] = [item]
       } else {
@@ -141,9 +146,9 @@ export default {
     setTimeout(() => {
       this.bindChart();
     }, 500)
-    setTimeout(() => {
-      this.dialogVisible = true  
-    }, 4000)
+    // setTimeout(() => {
+    //   this.dialogVisible = true  
+    // }, 4000)
   },
   methods: {
     restart() {
@@ -191,6 +196,7 @@ export default {
   }
   letter-spacing: 1pt;
   color: #969696;
+  padding-bottom: 10px;
   .score-row {
     display: flex;
     align-items: baseline;
@@ -203,18 +209,20 @@ export default {
   }
   .advantage, .disadvantage {
     display: flex;
-    padding: 20px 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
     .icon {
       max-width: 50px;
       margin-right: 10px;
     }
     .content {
+      margin: 0;
       h3 {
         color: #4a4a4a;
         margin: unset;
         margin-bottom: 10px;
       }
-      margin: 0;
+      
     }
   }
 }
@@ -231,9 +239,10 @@ export default {
   }
 }
 .float-share-btn {
-  position: fixed;
+  position: absolute;
   bottom: 10px;
-  right: 20px;
+  right: 0;
+  transform: scale(0.8, 0.8);
   .el-button {
     background-color: transparent;
     color: white;
@@ -248,6 +257,7 @@ export default {
   position: relative;
   overflow: hidden;
   z-index: 0;
+  height: 100vh;
   .float-btn {
     position: absolute;
     cursor: pointer;

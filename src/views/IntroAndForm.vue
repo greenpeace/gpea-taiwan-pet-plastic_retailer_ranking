@@ -74,28 +74,28 @@
                     <el-input autocomplete="on" placeholder="greenpeace@gmail.com" v-model="ruleForm.email"></el-input>
                   </el-form-item>
                   <el-row :gutter="30">
-                    <el-col :span="12">
+                    <el-col :xs="24" :sm="24" :xl="18">
                       <el-form-item label="姓氏" prop="lastName" required>
                         <el-input autocomplete="on" v-model="ruleForm.lastName" placeholder="王"></el-input>
                       </el-form-item>
                     </el-col>
                   </el-row>
                   <el-row>
-                    <el-col :span="12">
+                    <el-col :xs="24" :sm="24" :xl="18">
                       <el-form-item label="名字" prop="firstName" required>
                         <el-input autocomplete="on" v-model="ruleForm.firstName" placeholder="小明"></el-input>
                       </el-form-item>
                     </el-col>
                   </el-row>
                   <el-row :gutter="30">
-                    <el-col :xs="24" :md="24" :xl="17">
+                    <el-col :xs="24" :md="24" :xl="18">
                       <el-form-item label="電話（0912345678 或 02-23612351）" prop="phoneNumber" required>
                         <el-input autocomplete="on" v-model="ruleForm.phoneNumber" placeholder="0912345678"></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :xs="12" :md="12">
                       <el-form-item label="出生年份" prop="yearOfBirth" required>
-                        <el-date-picker type="year" v-model="ruleForm.yearOfBirth" style="width: 100%;"></el-date-picker>
+                        <el-date-picker prefix-icon="none" type="year" v-model="ruleForm.yearOfBirth" style="width: 100%;"></el-date-picker>
                       </el-form-item>
                     </el-col>
                   </el-row>
@@ -186,7 +186,7 @@ export default {
         lastName: "",
         firstName: "",
         phoneNumber: "",
-        yearOfBirth: "",
+        yearOfBirth: "1980",
         moreInfo: true
       },
       rules: {
@@ -243,6 +243,7 @@ export default {
     },
   },
   mounted() {
+    
     this.show = true;
     this.progressGoal = parseInt(document.querySelector('input[name="numSignupTarget"]').value, 10) || 2000000,
     setTimeout(() => {
@@ -319,7 +320,7 @@ export default {
       this.formLoading = true;
       let $ = (selector) => document.querySelector(selector),
       $all = (selector) => document.querySelectorAll(selector);
-
+      
       this.$emit("displayCover");
       
       if (this.isDDPage && !this.ruleForm.phoneNumber) {
