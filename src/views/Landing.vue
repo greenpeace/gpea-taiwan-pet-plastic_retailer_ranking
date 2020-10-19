@@ -9,7 +9,7 @@
           <img src="../assets/logo_black.png" width="100%" alt="">
         </div>
         <el-row>
-          <el-col :sm="6">
+          <el-col :xs="{span: 18, offset: 3}" class="logan" :sm="6">
             <img src="../assets/logan.png" width="100%" alt="">
           </el-col>
           <el-col :sm="24">
@@ -37,10 +37,8 @@
 
 <script>
 export default {
-  name: 'Blank',
-  props: {
-    msg: String
-  },
+  name: 'Landing',
+  props: {},
   data() {
     return {
       show: false
@@ -80,6 +78,7 @@ export default {
     padding: 5% 10%;
     height: 100vh;
     background-color: rgba(#fff, 0.75);
+    color: #4a4a4a;
     .floating-logo {
       position: absolute;
       right: 130px;
@@ -99,6 +98,40 @@ export default {
       cursor: pointer;
       &:hover {
         background-color: #f57f17;
+      }
+    }
+  }
+}
+@media (max-width: 991px) {
+  .landing {
+    background-image: url('../assets/landing_mobile_bg.png');  
+    background-size: cover;
+    .floating-man {
+      position: absolute;
+      bottom: -10%;
+      right: 10%;
+      width: 80%;
+    }
+    .cover {
+      text-align: center;
+      letter-spacing: 1pt;
+      line-height: 2;
+      .floating-logo {
+        position: relative;
+        width: 60%;
+        padding-left: 20%;
+        right: unset;
+        top: unset;
+      }
+      h1 {
+        font-size: 1.2rem;
+      }
+      .logan {
+        margin-top: 50px;
+      }
+      .confirm-btn {
+        padding: 15px 40px; 
+        width: 100%;
       }
     }
   }

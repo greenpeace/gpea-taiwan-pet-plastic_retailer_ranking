@@ -1,5 +1,5 @@
 <template>
-  <div class="select-brand">
+  <div class="select-brand" id="select-brand">
     <div class="light-cover">
       <img src="@/assets/light_mobile_bg.png" alt="">
     </div>
@@ -77,7 +77,8 @@ export default {
   },
   mounted() {
     this.handleAfterChange(undefined, undefined, 0);
-    document.body.scrollTop = 0
+    document.body.scrollTop = 0;
+    this.$scrollTo("#select-brand")
   },
   methods: {
     back() {

@@ -4,26 +4,27 @@
       <img src="../assets/landing_man.png" width="100%" alt="">
     </div> -->
     <transition name="el-fade-in">
-
       <div class="intro-block" v-if="show">
-        <el-row>
-          <el-col :sm="12">
-            <h1>解決塑膠問題，企業加油好嗎？</h1>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :sm="12">
-            <p>消費者有心減塑、政府推動限塑政策之外，若零售企業也積極與供應商、物流商等合力減少塑膠用量，一定會帶來明顯的效果！一起為零售企業加油，為環境更加努力！</p>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :sm="12">
-            <el-button class="confirm-btn" v-scroll-to="'#form-block'">
-              <!-- <i class="fa fa-spinner fa-spin" ></i>  -->
-              我也來幫忙
-            </el-button>
-          </el-col>
-        </el-row>
+        <div>
+          <el-row>
+            <el-col :sm="12">
+              <h1>解決塑膠問題，企業加油好嗎？</h1>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :sm="12">
+              <p>消費者有心減塑、政府推動限塑政策之外，若零售企業也積極與供應商、物流商等合力減少塑膠用量，一定會帶來明顯的效果！一起為零售企業加油，為環境更加努力！</p>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :sm="12">
+              <el-button class="confirm-btn" v-scroll-to="'#form-block'">
+                <!-- <i class="fa fa-spinner fa-spin" ></i>  -->
+                我也來幫忙
+              </el-button>
+            </el-col>
+          </el-row>
+        </div> 
       </div>
     </transition>  
     <div id="form-block" class="form-block" v-if="show">
@@ -33,12 +34,12 @@
           <p>綠色和平會把你的訴求，轉達給各企業。</p>
         </el-col>
         <!-- form -->
-        <el-col :sm="12">
+        <el-col :xs="24" :sm="12">
           <div class="form-container">
             <!-- progress bar -->
             <div class="progress-bar-container">
               <el-row :gutter="15">
-                <el-col :span="18">
+                <el-col :xs="15" :sm="18">
                   <div class="progress-title">當前連署進度</div>
                   <div class="progress-bar">
                     <div class="progress-bar-outer">
@@ -50,7 +51,7 @@
                     </div>
                   </div>
                 </el-col>
-                <el-col :span="6" class="progress-number">
+                <el-col :xs="9" :sm="6" class="progress-number">
                   <h3>
                     <animated-number
                       :value="progressNumber"
@@ -344,6 +345,7 @@ export default {
       });
 
       this.formComplete = true;
+      this.$scrollTo("#form-block");
       return 
 
       // need testing
@@ -373,22 +375,30 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+@keyframes shake {
+  0% {background-position: 40% top;}
+  25% {background-position: 60% top;}
+  50% {background-position: 30% top;}
+  75% {background-position: 50% top;}
+  100% {background-position: 40% top;}
+}
 
-@media (min-width: 1920px) {
- .checkbox-text {
-   font-size: 0.8rem;
- } 
- .form-container {
-   min-height: 850px !important;
- }
+@keyframes shake-m {
+  0% {background-position: 20% top;}
+  50% {background-position: 70% top;}
+  100% {background-position: 20% top;}
 }
 
 .intro {
   position: relative;
   z-index: 0;
-  background-position: center top;
-  background-size: cover;
+  // background-position: center top;
+  animation-name: shake;
+  animation-duration: 6s;
+  animation-iteration-count: infinite;
+  background-size: 110%;
   background-repeat: no-repeat;
+  background-color: black;
   background-image: url('../assets/intro_bg.png');
   width: 100%;
   height: auto;
@@ -426,7 +436,7 @@ export default {
     transition: all .5s ease;
     position: relative;
     padding: 2% 10%;
-    height: 100vh;
+    height: auto;
     min-height: 720px;
     color: white;
     .title {
@@ -442,15 +452,17 @@ export default {
       .progress-bar-container {
         background-color: #f4f4f4;
         color: #a7a7a7;
-        height: 100px;
+        height: 180px;
         padding: 5%;
+        box-sizing: border-box;
         .progress-title {
           font-size: 1rem;
         }
         .progress-number {
           text-align: right;
+          padding-top: 40px;
           h3, h6 {
-            margin: 10px;
+            margin: 10px 0;
           }
         }
         .progress-bar {
@@ -532,4 +544,58 @@ export default {
   }
 }
 
+@media (min-width: 1920px) {
+  .checkbox-text {
+    font-size: 0.8rem;
+  } 
+  .form-container {
+    min-height: 850px;
+  }
+}
+@media (max-width: 991px) {
+  .intro {
+    background-size: cover;
+    animation-name: shake-m;
+    .intro-block {
+      text-align: center;
+      display: flex;
+      align-items: flex-end;
+      vertical-align: baseline;
+      line-height: 1.6;
+      h1 {
+        font-size: 1.1rem;
+      }
+      .confirm-btn {
+        margin-top: 30vh;
+        margin-bottom: 20vh;
+        padding: 10px;
+        width: 100%;
+      }
+    }
+  }
+
+ .form-block {
+   padding: 20px 5% !important;
+   height: auto !important;
+    .title {
+      text-align: center;
+      font-size: 0.6rem;
+      p {
+        font-size: 0.8rem;
+      }
+    }
+    .form-container {
+      .progress-bar-container {
+        width: 100%;
+        height: 150px !important;
+        .progress-title {
+          font-size: 1rem;
+        }
+      }
+    }
+    .submit-btn-container {
+      width: 100% !important;
+    }
+  }
+}
 </style>

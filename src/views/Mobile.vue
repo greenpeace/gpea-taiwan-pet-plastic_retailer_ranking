@@ -129,5 +129,6 @@ export default {
 <style scoped lang="scss">
 .mobile {
   background-color: rgb(96, 20, 19);
+  position: relative;
 }
 </style>

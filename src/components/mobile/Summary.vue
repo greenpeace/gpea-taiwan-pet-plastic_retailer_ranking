@@ -1,5 +1,5 @@
 <template>
-  <div class="summary">
+  <div class="summary" id="summary">
     <div class="option-dialog-btn">
       <i @click="optionDialogVisible = true" class="fa fa-bars fa-2x" aria-hidden="true"></i>
     </div>
@@ -7,12 +7,12 @@
       <div class="runner-container"  
         v-for="(item) in selectedSummary" 
         :key="item.index" 
-        v-bind:class="{ selected: item.selected}">
+        v-bind:class="{ selected: item.selected}"
+        @click="openInfoDialog(item)">
         <h3 class="runner-title">{{item.brand}}<br> <i class="fa fa-caret-down" aria-hidden="true"></i> </h3>
-        <h6>網路支持率 
-          <!-- <i class="el-icon-question"></i> -->
-        </h6>
-        <h4 class="runner-score">{{item.percent}}</h4>
+        <h6>{{summaryType === 'support' ? "網路支持率" : "減塑得分"}}</h6>
+        <h4 class="runner-score">{{summaryType === 'support' ? item.percent : item.score}}</h4>
+        <i class="fa fa-question-circle" aria-hidden="true"></i>
         <img class="runner-img" :src="item.runnerSrc" alt="">
         <div class="runner-path" v-bind:class="{ selected: item.selected}" v-bind:style="{height: item.height}"></div>
       </div>
@@ -52,7 +52,60 @@
           <i @click="optionDialogVisible = false"  class="fa fa-times fa-2x" aria-hidden="true"></i>
         </div>
         <div class="content">
-          <h2 @click="restart">看看其他組賽況 <i class="fa fa-chevron-right" aria-hidden="true"></i></h2>
+          <div>
+            <div class="floating-switch" @click="changeType">
+              <div v-bind:class="{active: summaryType === 'score'}" class="switch-btn">減塑得分</div>
+              <div v-bind:class="{active: summaryType === 'support'}" class="switch-btn">網路支持率</div>
+            </div>
+            <h2 @click="restart">看看其他組賽況 <i class="fa fa-chevron-right" aria-hidden="true"></i></h2>
+          </div>
+        </div>
+      </div>
+    </transition>
+
+    <!-- info div -->
+    <transition name="fade" mode="out-in">
+      <div class="info-dialog" v-if="showInfo">
+        <div class="info-dialog-container">
+          <div class="close">
+            <i @click="showInfo = false"  class="fa fa-times" aria-hidden="true"></i>
+          </div>
+          <div class="info-content">
+            <h2>{{info.brand}}</h2>
+            <el-row type="flex" class="score-row" justify="space-between">
+              <el-col :span="6">
+                <p>減塑整體得分</p>
+              </el-col>
+              <el-col :span="6">
+                <h2>{{info.score}}</h2>
+              </el-col>
+              <el-col :span="6">
+                <p>網路支持率</p>
+              </el-col>
+              <el-col :span="6">
+                <h2>{{info.percent}}</h2>
+              </el-col>
+            </el-row>
+            <div>
+              {{info.description}}
+            </div>
+            <div class="advantage">
+              <div class="icon">
+                <img src="../../assets/good.png" alt="">
+              </div>
+              <div class="content">
+                <h3>很棒！做得好！</h3>{{info.advantage}}
+              </div>
+            </div>
+            <div class="disadvantage">
+              <div class="icon">
+                <img src="../../assets/bad.png" alt="">
+              </div>
+              <div class="content">
+                <h3>加油！可以做更好！</h3>{{info.disadvantage}}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </transition>
@@ -70,7 +123,10 @@ export default {
     return {
       mode: "",
       shareDialogVisible: false,
+      showInfo: false,
+      info: {},
       optionDialogVisible: false,
+      summaryType: "score", // support
       summaryJson: {},
       selectedSummary: [],
     }
@@ -87,6 +143,7 @@ export default {
     }
   },
   mounted() {
+    this.$scrollTo("#summary")
     for (let i in this.summary) {
       let targetCategory = _.find(this.categories, {title: this.summary[i][0]});
       let targetCategoryItems = _.find(targetCategory.items, {value: this.summary[i][1]});
@@ -96,6 +153,9 @@ export default {
         brand: this.summary[i][1],
         count: this.summary[i][2],
         score: this.summary[i][3], // 減塑得分
+        description: this.summary[i][4],
+        advantage: this.summary[i][5],
+        disadvantage: this.summary[i][6],
         runnerSrc: targetCategoryItems.srcSummary,
         selected: (this.brand === this.summary[i][1]),
       }
@@ -108,22 +168,17 @@ export default {
     }
 
     this.selectedSummary = this.summaryJson[this.categories[this.categoryIndex].title]
-
-    
-    let total = _.sumBy(this.selectedSummary, "count");
     
     this.selectedSummary.forEach(item => {
-      item.percent = `${((item.count / total) * 100).toFixed(2)}%`;
+      item.total = _.sumBy(this.selectedSummary, "count");
+      item.percent = `${((item.count / item.total) * 100).toFixed(2)}%`;
     });
+    console.log(this.selectedSummary)
     setTimeout(() => {
-      this.selectedSummary = this.selectedSummary.map((item) => {
-        item.height = `${((item.count / total) * 100 / 2.2).toFixed(2)}vh`;
-        return item
-      });  
+      this.bindChart();
     }, 500)
-    
     setTimeout(() => {
-      this.shareDialogVisible = true  
+      this.dialogVisible = true  
     }, 4000)
   },
   methods: {
@@ -132,7 +187,35 @@ export default {
     },
     open(url) {
       window.open(url, "_blank")
-    }
+    },
+    openInfoDialog(item) {
+      this.info = item;
+      console.log(item)
+      this.showInfo = true;
+    },
+    changeType() {
+      if (this.summaryType === "score") {
+        this.summaryType = "support"
+      } else {
+        this.summaryType = "score"
+      }
+      this.bindChart();
+      // console.log(this.summaryType)
+      this.optionDialogVisible = false;
+    },
+    bindChart() {
+      if (this.summaryType === "support") {
+        this.selectedSummary = this.selectedSummary.map((item) => {
+          item.height = `${((item.count / item.total) * 100 / 2.2).toFixed(2)}vh`;
+          return item
+        });
+      } else {
+        this.selectedSummary = this.selectedSummary.map((item) => {
+          item.height = `${((item.score / 60) * 100 / 2).toFixed(2)}vh`;
+          return item
+        });
+      }
+    },
   }
 }
 </script>
@@ -167,7 +250,26 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-
+    .floating-switch {
+      background-color: white;
+      border-radius: 50px;
+      padding: 5px;
+      display: flex;
+      margin-bottom: 50px;
+      .switch-btn {
+        transition: all 0.3s ease-in;
+        border: none;
+        border-radius: 50px;
+        padding: 8px 10px;
+        font-weight: bolder;
+        margin-left: 0;
+        color: #a7a7a7;
+        &.active {
+          background-color: #ffb100;
+          color: white;
+        }
+      }
+    }
   }
 }
 .share-dialog {
@@ -182,6 +284,62 @@ export default {
     text-align: center;
   }
 }
+
+.info-dialog {  
+  position: absolute;
+  display: flex;
+  vertical-align: middle;
+  align-items: center;
+  z-index: 100;
+  width: 100%;
+  height: 100vh;
+  backdrop-filter: blur(5px);
+  top: 0;
+  right: 0;
+  text-align: left;
+  .info-dialog-container {
+    position: relative;
+    border-radius: 20px;
+    width: 90%;
+    margin: 5%;
+    padding: 20px;
+    background-color: white;
+    box-sizing: border-box;
+    color: #4a4a4a;
+    max-height: 90vh;
+    overflow-y: scroll;
+    .close {
+      float: right;
+    }
+    .info-content {
+      color: #969696;
+      h2 {
+        margin-top: 5px;
+        color: #4a4a4a;
+      }
+      .score-row {
+        display: flex;
+        text-align: center;
+        white-space: nowrap;
+        font-weight: bold;
+      }
+      .advantage, .disadvantage{
+        margin-top: 20px;
+        display: flex;
+        .icon {
+          margin-top: 10px;
+          margin-right: 10px;
+        }
+        .content {
+          h3 {
+            color: #4a4a4a;
+          }
+        }
+      }
+    }
+  }
+}
+
 .float-share-btn {
   position: absolute;
   bottom: 10px;
@@ -203,6 +361,7 @@ export default {
   position: relative;
   overflow: hidden;
   z-index: 0;
+  height: 96vh;
   .float-btn {
     position: fixed;
     top: 5%;
@@ -215,7 +374,7 @@ export default {
     display: flex;
     left: 5vw;
     width: 96vw;
-    height: 88vh;
+    height: 96vh;
     .runner-container {
       position: absolute;
       bottom: 18.5vw;
@@ -239,6 +398,11 @@ export default {
       }
       &.selected {
         color: #ffb100;
+      }
+      .fa-question-circle {
+        float: right;
+        padding-right: 10px;
+        margin-bottom: -10px;
       }
       .runner-score {
         width: 100%;

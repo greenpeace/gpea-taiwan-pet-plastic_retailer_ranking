@@ -1,5 +1,5 @@
 <template>
-  <div class="select-category">
+  <div class="select-category" id="select-category">
     <div class="light-cover">
       <img src="@/assets/light_mobile_bg.png" alt="">
     </div>
@@ -99,6 +99,7 @@ export default {
     document.querySelector(".slider-row").classList.remove('transparent');
     // this.title = this.selectedCategory.title
     // this.description = this.selectedCategory.description
+    this.$scrollTo("#select-category")
   },
   methods: {
     selectCategory() {

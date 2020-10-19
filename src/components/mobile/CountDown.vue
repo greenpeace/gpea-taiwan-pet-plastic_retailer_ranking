@@ -1,5 +1,5 @@
 <template>
-  <div class="count-down">
+  <div class="count-down" id="count-down">
     <div>
       <transition name="fade" mode="out-in">
         <h1>{{second}}</h1>
@@ -18,6 +18,7 @@ export default {
   },
   mounted() {
     this.startCountDown();
+    this.$scrollTo("#count-down")
   },
   methods: {
     startCountDown() {

@@ -281,6 +281,8 @@ button {
 .el-form-item__label {
   padding: unset !important;
   height: 25px !important;
+  line-height: 20px !important;
+  display: inline !important;
 }
 .el-form-item {
   margin-bottom: 12px !important;
