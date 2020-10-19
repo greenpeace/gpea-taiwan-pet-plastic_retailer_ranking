@@ -58,7 +58,7 @@
                       :formatValue="formatToPrice"
                       :duration="1000"  />
                   </h3>
-                  <h6> / {{progressGoal}}</h6>
+                  <h6> / {{formatToPrice(progressGoal)}}</h6>
                 </el-col>
               </el-row>
             </div>
@@ -232,17 +232,22 @@ export default {
   },
   computed: {
     progressBarWidth: function () {
-      return ((this.progressNumber / this.progressGoal) * 100 ).toString() + "%";
+      // return ((this.progressNumber / this.progressGoal) * 100 ).toString() + "%";
+      const percent = (this.progressNumber / this.progressGoal) * 100
+      return percent + "%"
     },
     progressBarFishPos: function () {
-      return ((this.progressNumber / this.progressGoal) * 100 - 10).toString() + "%";
+      const percent = (this.progressNumber / this.progressGoal) * 100 - 15
+      // console.log(percent);
+      return percent + "%"
     },
   },
   mounted() {
     this.show = true;
+    this.progressGoal = parseInt(document.querySelector('input[name="numSignupTarget"]').value, 10) || 2000000,
     setTimeout(() => {
-      this.progressNumber = 12000;
-    }, 2000)
+      this.progressNumber = parseInt(document.querySelector('input[name="numResponses"]').value, 10) || 100000;
+    }, 1000)
   },
   methods: {
     formatToPrice(value) {
@@ -344,30 +349,29 @@ export default {
         //console.log('use', el.name, v)
       });
 
-      this.formComplete = true;
       this.$scrollTo("#form-block");
-      return 
+      // return 
 
       // need testing
-      // return fetch($("#mc-form").action, {
-      //   method: "POST",
-      //   body: formData,
-      // })
-      //   .then((response) => response.json())
-      //   .then((response) => {
-      //     if (response) {
-      //       console.log("mc form posted")
-      //       console.log('response', response)
-      //       // this.$emit("removeCover");
-      //       // this.$emit("thankYou");
-      //       this.formLoading = false;
-      //     }
-      //   })
-      //   .catch((error) => {
-      //     console.log(error);
-      //     this.formLoading = false;
-      //     // this.$emit("removeCover");
-      //   });
+      return fetch($("#mc-form").action, {
+        method: "POST",
+        body: formData,
+      })
+        .then((response) => response.json())
+        .then((response) => {
+          if (response) {
+            console.log("mc form posted")
+            console.log('response', response)
+            this.progressNumber += 1;
+            this.formComplete = true;
+            this.formLoading = false;
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          this.formLoading = false;
+          // this.$emit("removeCover");
+        });
     },
   }
 }
@@ -439,9 +443,6 @@ export default {
     height: auto;
     min-height: 720px;
     color: white;
-    .title {
-      margin-top: 10%;
-    }
     .form-container {
       position: relative;
       width: 100%;

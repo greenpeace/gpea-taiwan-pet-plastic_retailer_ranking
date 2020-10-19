@@ -72,7 +72,7 @@
           <el-button class="share-btn" @click="open('https://www.facebook.com/greenpeace.org.tw/')"><i class="fa fa-facebook-official" aria-hidden="true"></i> 追蹤綠色和平臉書</el-button>
         </el-col>
         <el-col :span="12">
-          <el-button class="share-btn" @click="open('https://www.facebook.com/sharer/sharer.php?u=https://act.gp/3j3B9Zo')"><i class="fa fa-share-alt" aria-hidden="true"></i> 分享投票活動給更多朋友</el-button>
+          <el-button class="share-btn share-button share-button__fb" @click="open('https://www.facebook.com/sharer/sharer.php?u=https://act.gp/3j3B9Zo')"><i class="fa fa-share-alt" aria-hidden="true"></i> 分享投票活動給更多朋友</el-button>
         </el-col>
       </el-row>
     </el-dialog>

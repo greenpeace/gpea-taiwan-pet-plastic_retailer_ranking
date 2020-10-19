@@ -3,7 +3,7 @@ const PrerenderSPAPlugin = require('prerender-spa-plugin')
 
 module.exports = {
     publicPath: process.env.NODE_ENV === 'production' ?
-      'https://change.greenpeace.org.tw/2020/petition/zh-TW.2020.plastic-retailer-ranking.mc' : './',
+      'https://change.greenpeace.org.tw/2020/petition/zh-TW.2020.plastic-retailer-ranking.mc-v2' : './',
     outputDir: 'build',
     assetsDir: 'static',
     filenameHashing: true,

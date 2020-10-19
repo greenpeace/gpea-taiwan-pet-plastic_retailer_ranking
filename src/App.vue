@@ -40,7 +40,7 @@ export default {
   data() {
     return {
       ip: "",
-      introShow: true,
+      introShow: false,
       appScript: "https://script.google.com/macros/s/AKfycbw8XjIKnkXAGjIMltyqQ4IE5n29puZEkkvKPSwOUMwQ7O6erUD3/exec",
       corsAnyWhere: "https://cors-anywhere.small-service.gpeastasia.org/",
       // summary: [],
