@@ -129,7 +129,18 @@
                 <div>
                   <i class="fa fa-check-circle fa-5x" aria-hidden="true"></i>
                   <h2>連署成功</h2>
-                  <p>感謝您對地球盡一份心力！</p>
+                  <p>感謝您為地球盡一份心力！<br>
+                    綠色和平曾與其他團體成功推動<strong>禁用塑膠微粒</strong>以及<strong>實施限用一次性塑膠政策</strong><br>
+                    這場「減塑運動」會一直持續下去，實踐源頭減塑，需要您進一步的支持，一起為減塑拿下更多里程碑!
+                  </p>
+                  <el-row :gutter="20">
+                    <el-col :span="12">
+                      <el-button class="share-btn share-button share-button__fb" @click="open('https://www.facebook.com/sharer/sharer.php?u=https://act.gp/2T6qody')"><i class="fa fa-facebook-official" aria-hidden="true"></i> 邀請朋友連署</el-button>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-button class="share-btn share-button share-button__fb" @click="open('https://supporter.ea.greenpeace.org/tw/s/donate?campaign=plastics&ref=2020-plastic_retailer_thankyou_page')"><i class="fa fa-share-alt" aria-hidden="true"></i> 支持我們</el-button>
+                    </el-col>
+                  </el-row>
                 </div>
               </div>
             </transition>
@@ -176,7 +187,7 @@ export default {
       }
     };
     return {
-      show: false,
+      show: true,
       formComplete: false,
       formLoading: false,
       progressNumber: 1200,
@@ -186,7 +197,7 @@ export default {
         lastName: "",
         firstName: "",
         phoneNumber: "",
-        yearOfBirth: "1980",
+        yearOfBirth: new Date("1980-01-01"),
         moreInfo: true
       },
       rules: {
@@ -231,6 +242,9 @@ export default {
     }
   },
   computed: {
+    isDDPage: function () {
+      return this.$route.query.utm_source === "dd"
+    },
     progressBarWidth: function () {
       // return ((this.progressNumber / this.progressGoal) * 100 ).toString() + "%";
       const percent = (this.progressNumber / this.progressGoal) * 100
@@ -242,15 +256,60 @@ export default {
       return percent + "%"
     },
   },
+  created() {
+    if (this.isDDPage) {
+      console.log("dd page");
+      delete this.rules.phoneNumber;
+    } else {
+      console.log("normal page");
+      this.rules.phoneNumber = [
+        {
+          validator: this.validatePhone,
+          message: "電話格式不正確",
+          trigger: "blur",
+        },
+      ];
+    }
+    if (this.$router.currentRoute.path === '/2') {
+      this.formComplete = true;
+    }
+  },
   mounted() {
-    
     this.show = true;
-    this.progressGoal = parseInt(document.querySelector('input[name="numSignupTarget"]').value, 10) || 2000000,
-    setTimeout(() => {
-      this.progressNumber = parseInt(document.querySelector('input[name="numResponses"]').value, 10) || 100000;
-    }, 1000)
+    this.getPetitionNumber();
   },
   methods: {
+    getPetitionNumber() {
+      let numSignupTarget = document.querySelector(
+        'input[name="numSignupTarget"]'
+      )
+        ? parseInt(
+            document.querySelector('input[name="numSignupTarget"]').value,
+            10
+          )
+        : 0;
+      let numResponses = document.querySelector('input[name="numResponses"]')
+        ? parseInt(
+            document.querySelector('input[name="numResponses"]').value,
+            10
+          )
+        : 0;
+      // use the default values if something wrong
+      if (isNaN(numResponses) || numResponses < 191854) numResponses += 191854;
+      if (isNaN(numSignupTarget) || numSignupTarget < 200000)
+        numSignupTarget = 200000;
+      if (numResponses > numSignupTarget)
+        numSignupTarget = Math.ceil(numResponses / 10000) * 10000;
+
+      this.progressGoal = numSignupTarget;
+      setTimeout(() => {
+        this.progressNumber = numResponses;
+      }, 1000)
+      
+    },
+    open(url) {
+      window.open(url, "_blank")
+    },
     formatToPrice(value) {
       // console.log(value)
       var parts = value.toString().split(".");
@@ -526,20 +585,27 @@ export default {
         }
       }
       .form-complete {
-        position: absolute;
-        display: flex;
+        position: relative;
         text-align: center;
-        align-items: center;
-        vertical-align: middle;
-        height: 80%;
         width: 100%;
         color: #4a4a4a;
-        * {
-          text-align: center;
-          width: 100%;
+        padding: 5%;
+        line-height: 1.8;
+        box-sizing: border-box;
+        strong {
+          color: #ffb100;
         }
         .fa-check-circle {
           color: #66cc00;
+        }
+        .share-btn {
+          margin-top: 15%;
+          margin-bottom: 15%;
+          width: 100%;
+          font-size: 1.1rem;
+          &:hover {
+            background-color: white;
+          }
         }
       }
     }
@@ -598,6 +664,9 @@ export default {
     .submit-btn-container {
       width: 100% !important;
     }
+  }
+  .share-btn {
+    font-size: 0.8rem !important;
   }
 }
 </style>

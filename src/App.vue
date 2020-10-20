@@ -130,6 +130,9 @@ export default {
   },
   mounted() {
     this.$scrollTo("#app")
+    if (this.$router.currentRoute.path === '/2') {
+      this.introShow = true;
+    }
   },
   methods: {
     showForm () {

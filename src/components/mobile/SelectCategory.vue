@@ -10,7 +10,9 @@
     </el-row>
     <el-row>
       <el-col :span="24">
-        <p class="description">投票後就能看見<strong>支持率最高</strong>的零售商是誰哦！</p>
+        <p class="description">
+          投票後就能看見一年內<strong>進步最多</strong>跟<strong>支持率最高</strong>的零售商是誰哦！
+        </p>
       </el-col>
     </el-row>
     <p class="label-badge"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> 選擇類別，開始投票！</p>

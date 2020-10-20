@@ -10,13 +10,13 @@
             </el-col>
             <el-col :sm="24" :md="10" v-if="isDesktop">
               <el-button class="share-btn" 
-                @click="open('https://supporter.ea.greenpeace.org/tw/s/donate?ref=2020-plastic_retailer')">支持我們</el-button>
+                @click="open('https://supporter.ea.greenpeace.org/tw/s/donate?campaign=plastics&ref=2020-plastic_retailer')">支持我們</el-button>
             </el-col>
           </el-row>
           <el-row :gutter="20" v-if="!isDesktop">
             <el-col :sm="24" :md="{span: 10, offset: 3}">
               <el-button class="share-btn" 
-                @click="open('https://supporter.ea.greenpeace.org/tw/s/donate?ref=2020-plastic_retailer')">支持我們</el-button>
+                @click="open('https://supporter.ea.greenpeace.org/tw/s/donate?campaign=plastics&ref=2020-plastic_retailer')">支持我們</el-button>
             </el-col>
           </el-row>
           <el-row :gutter="20">
@@ -72,6 +72,9 @@ export default {
       font-weight: bolder;
       font-size: 1rem;
       border: 1px solid #424242;
+      &:hover {
+        border-color: #ffb100;
+      }
     }
     .footer-text {
       font-size: 1rem;
