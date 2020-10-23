@@ -68,11 +68,12 @@ export default {
       if (decision.type === "category") {
         this.categoryIndex = decision.index;
         this.select.category = decision.option;
-        this.step = 2;
+        this.step = 4;
+        // this.$scrollTo("#summary")
       } else if (decision.type === "brand") {
-        this.select.brand = decision.option;
-        await this.submitDecision(this.select);
-        await this.getSummary();
+        // this.select.brand = decision.option;
+        // await this.submitDecision(this.select);
+        // await this.getSummary();
         this.step = 3;
       } else if (decision.type === "summary") {
         this.$emit("showForm");
@@ -81,6 +82,7 @@ export default {
     },
     removeDecision () {
       this.step -= 1
+      // this.$scrollTo("#select-brand");
     },
     restartDecision () {
       console.log("restart")

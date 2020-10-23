@@ -32,6 +32,19 @@
         <el-col :sm="12" class="title">
           <h1>立即連署，要求九大零售企業，<br>減少塑膠包裝！</h1>
           <p>綠色和平會把你的訴求，轉達給各企業。</p>
+          <p class="text--left">綠色和平要求九大零售企業公開承諾減塑，並達到四大訴求：<br>
+            <br>
+            <ul>
+              <li><strong>提出總體減塑政策</strong>：減塑需要長期的規劃，業者應承諾整體塑膠減量目標。</li>
+              <li><strong>做出具體減量的行動</strong>：包含塑膠包裝以及製品，業者需有明確目標和時間表。</li>  
+              <li><strong>倡議與創新</strong>：以重複使用為原則，開發可規模化的替代方案，並投入員工訓練以及消費者溝通，推廣替代方案。</li>
+              <li><strong>達到資訊透明</strong>：全面盤點並公布塑膠足跡，包括塑膠包裝以及塑膠製品的重量、數量以及種類，並公開減塑成果，引領臺灣零售產業一起邁向無塑。</li>
+            </ul>
+            
+            
+            
+            
+          </p>
         </el-col>
         <!-- form -->
         <el-col :xs="24" :sm="12">
@@ -422,6 +435,7 @@ export default {
           if (response) {
             console.log("mc form posted")
             console.log('response', response)
+            this.sendPetitionTracking('2020-plastic_retailer');
             this.progressNumber += 1;
             this.formComplete = true;
             this.formLoading = false;
@@ -433,6 +447,26 @@ export default {
           // this.$emit("removeCover");
         });
     },
+    sendPetitionTracking (eventLabel, eventValue) {
+      window.dataLayer = window.dataLayer || [];
+
+      window.dataLayer.push({
+          'event': 'gaEvent',
+          'eventCategory': 'petitions',
+          'eventAction': 'signup',
+          'eventLabel': eventLabel,
+          'eventValue' : eventValue
+      });
+
+      window.dataLayer.push({
+          'event': 'fbqEvent',
+          'contentName': eventLabel,
+          'contentCategory': 'Petition Signup'
+      });
+
+      window.uetq = window.uetq || [];  
+      window.uetq.push ('event', 'signup', {'event_category': 'petitions', 'event_label': eventLabel, 'event_value': 0});
+    }
   }
 }
 </script>
@@ -468,6 +502,7 @@ export default {
   height: auto;
   text-align: left;
   letter-spacing: 2pt;
+  padding-bottom: 4%;
   .floating-man {
     position: absolute;
     bottom: -35%;
@@ -503,6 +538,15 @@ export default {
     height: auto;
     min-height: 720px;
     color: white;
+    ul {
+      padding-left: unset;
+      padding-right: 10%;
+      line-height: 1.8;
+    }
+    strong {
+      color: #ffb100;
+      font-weight: bolder;
+    }
     .form-container {
       position: relative;
       width: 100%;

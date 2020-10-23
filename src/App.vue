@@ -40,7 +40,7 @@ export default {
   data() {
     return {
       ip: "",
-      introShow: false,
+      introShow: true,
       appScript: "https://script.google.com/macros/s/AKfycbw8XjIKnkXAGjIMltyqQ4IE5n29puZEkkvKPSwOUMwQ7O6erUD3/exec",
       corsAnyWhere: "https://cors-anywhere.small-service.gpeastasia.org/",
       // summary: [],
@@ -177,7 +177,9 @@ button {
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
 }
-
+.text--left{
+  text-align: left;
+}
 .tooltip {
   display: block !important;
   z-index: 10000;

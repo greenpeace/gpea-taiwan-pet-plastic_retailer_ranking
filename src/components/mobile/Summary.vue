@@ -55,10 +55,13 @@
         <div class="content">
           <div>
             <div class="floating-switch" @click="changeType">
-              <div v-bind:class="{active: summaryType === 'score'}" class="switch-btn">減塑得分</div>
-              <div v-bind:class="{active: summaryType === 'support'}" class="switch-btn">網路支持率</div>
+              <div class="floating-switch-container">
+                <div v-bind:class="{active: summaryType === 'score'}" class="switch-btn">減塑得分</div>
+                <div v-bind:class="{active: summaryType === 'support'}" class="switch-btn">網路支持率</div>
+              </div>
             </div>
             <h2 @click="restart">看看其他組賽況 <i class="fa fa-chevron-right" aria-hidden="true"></i></h2>
+            <h4 @click="open('https://change.greenpeace.org.tw/2020/reports/2020%e8%87%ba%e7%81%a3%e9%9b%b6%e5%94%ae%e9%80%9a%e8%b7%af%e4%bc%81%e6%a5%ad%e6%b8%9b%e5%a1%91%e8%a9%95%e6%af%94%e5%a0%b1%e5%91%8a_FINAL_web.pdf')">查看 2020 臺灣零售企業減塑評比完整報告 <i class="fa fa-chevron-right" aria-hidden="true"></i></h4>
           </div>
         </div>
       </div>
@@ -223,6 +226,11 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+@keyframes beats {
+  0% { transform: scale(1,1) }
+  50% { transform: scale(1.6,1.6) }
+  100% { transform: scale(1,1) }
+}
 .option-dialog-btn {
   z-index: 5;
   width: 100%;
@@ -251,23 +259,29 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
+    h4 {
+      margin-top: 20%;
+    }
     .floating-switch {
-      background-color: white;
-      border-radius: 50px;
-      padding: 5px;
-      display: flex;
-      margin-bottom: 50px;
-      .switch-btn {
-        transition: all 0.3s ease-in;
-        border: none;
+      display: inline-block;
+      .floating-switch-container {
+        background-color: white;
         border-radius: 50px;
-        padding: 8px 10px;
-        font-weight: bolder;
-        margin-left: 0;
-        color: #a7a7a7;
-        &.active {
-          background-color: #ffb100;
-          color: white;
+        padding: 5px;
+        display: flex;
+        margin-bottom: 50px;
+        .switch-btn {
+          transition: all 0.3s ease-in;
+          border: none;
+          border-radius: 50px;
+          padding: 8px 10px;
+          font-weight: bolder;
+          margin-left: 0;
+          color: #a7a7a7;
+          &.active {
+            background-color: #ffb100;
+            color: white;
+          }
         }
       }
     }
@@ -407,6 +421,9 @@ export default {
         float: right;
         padding-right: 10px;
         margin-bottom: -10px;
+        animation-name: beats;
+        animation-iteration-count: infinite;
+        animation-duration: 2s;
       }
       .runner-score {
         width: 100%;

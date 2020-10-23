@@ -2,10 +2,13 @@
   <div class="summary" id="summary">
     <div class="float-btn">
       <div class="floating-switch" @click="changeType">
-        <div v-bind:class="{active: summaryType === 'score'}" class="switch-btn">減塑得分</div>
-        <div v-bind:class="{active: summaryType === 'support'}" class="switch-btn">網路支持率</div>
+        <div class="floating-switch-container">
+          <div v-bind:class="{active: summaryType === 'score'}" class="switch-btn">減塑得分</div>
+          <div v-bind:class="{active: summaryType === 'support'}" class="switch-btn">網路支持率</div>
+        </div>
       </div>
       <h4 @click="restart">看看其他組賽況 <i class="fa fa-chevron-right" aria-hidden="true"></i></h4>
+      <h4 @click="open('https://change.greenpeace.org.tw/2020/reports/2020%e8%87%ba%e7%81%a3%e9%9b%b6%e5%94%ae%e9%80%9a%e8%b7%af%e4%bc%81%e6%a5%ad%e6%b8%9b%e5%a1%91%e8%a9%95%e6%af%94%e5%a0%b1%e5%91%8a_FINAL_web.pdf')">查看 2020 臺灣零售企業減塑評比完整報告 <i class="fa fa-chevron-right" aria-hidden="true"></i></h4>
     </div>
     <div class="runner-row" v-bind:style="runnerRow">      
       <div class="runner-container"  
@@ -261,26 +264,35 @@ export default {
   .float-btn {
     position: absolute;
     cursor: pointer;
+    text-align: right;
     top: 5%;
     right: 5%;
     z-index: 10;
     font-size: 0.8rem;
+    h4 {
+      // background-color: rgba(0,0,0, 0.2);
+      text-shadow: 2px 2px #000;
+    }
     .floating-switch {
       background-color: white;
       border-radius: 50px;
       padding: 5px;
-      display: flex;
-      .switch-btn {
-        transition: all 0.3s ease-in;
-        border: none;
-        border-radius: 50px;
-        padding: 8px 10px;
-        font-weight: bolder;
-        margin-left: 0;
-        color: #a7a7a7;
-        &.active {
-          background-color: #ffb100;
-          color: white;
+      width: auto;
+      display: inline-block;
+      .floating-switch-container {
+        display: flex;
+        .switch-btn {
+          transition: all 0.3s ease-in;
+          border: none;
+          border-radius: 50px;
+          padding: 8px 10px;
+          font-weight: bolder;
+          margin-left: 0;
+          color: #a7a7a7;
+          &.active {
+            background-color: #ffb100;
+            color: white;
+          }
         }
       }
     }

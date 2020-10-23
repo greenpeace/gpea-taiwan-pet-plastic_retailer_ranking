@@ -68,19 +68,24 @@ export default {
 
     }
   },
-  mounted() {
-    
+  created() {
+    console.log("getting summary")
+    this.getSummary();
+  },
+  mounted () {
+    //
   },
   methods: {
     async makeDecision (decision) {
       if (decision.type === "category") {
         this.categoryIndex = decision.index;
         this.select.category = decision.option;
-        this.step = 2;
-      } else if (decision.type === "brand") {
+        // this.step = 2;
+        this.step = 4;
+      } else if (decision.type === "brand") { // skipped
         this.select.brand = decision.option;
-        // await this.$emit("submit", this.select);
-        await this.submitDecision(this.select);
+        // console.log(this.select.brand)
+        await this.$emit("submit", this.select);
         await this.getSummary();
         this.step = 3;
       } else if (decision.type === "summary") {
