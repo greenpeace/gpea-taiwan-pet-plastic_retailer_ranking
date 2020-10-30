@@ -5,14 +5,14 @@
         <h2 class="title">你認為過去一年內，<br>哪間超市／超商／量販店<br>在減塑方面做出最多努力？</h2>
       </el-col>
     </el-row>
-    <el-row>
+    <!-- <el-row>
       <el-col :span="12">
         <p class="description">
           投票後就能看見一年內<strong>進步最多</strong>跟<strong>支持率最高</strong>的零售商是誰哦！
         </p>
       </el-col>
-    </el-row>
-    <p class="label-badge"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> 選擇類別，開始投票！</p>
+    </el-row> -->
+    <p class="label-badge"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> 選擇類別，看看減塑評比結果！</p>
     <div class="hover-light-row">
       <div class="hover-light" v-bind:class="{ hover: category1Hover}" @click="selectCategory(0, '超商組')" @mouseenter="category1Hover = true" @mouseout="category1Hover = false">
         <img src="@/assets/light_bg.png" alt="">

@@ -1,8 +1,8 @@
 <template>
   <div class="intro">
-    <!-- <div class="floating-man">
-      <img src="../assets/landing_man.png" width="100%" alt="">
-    </div> -->
+    <div class="floating-logo">
+      <img src="../assets/logo_black.png" width="100%" alt="">
+    </div>
     <transition name="el-fade-in">
       <div class="intro-block" v-if="show">
         <div>
@@ -503,11 +503,12 @@ export default {
   text-align: left;
   letter-spacing: 2pt;
   padding-bottom: 4%;
-  .floating-man {
+  .floating-logo {
     position: absolute;
-    bottom: -35%;
+    top: 50px;
     right: 100px;
     width: 40%;
+    max-width: 300px;
   }
   .intro-block {
     transition: all .5s ease;
@@ -668,17 +669,29 @@ export default {
   .intro {
     background-size: cover;
     animation-name: shake-m;
+    .floating-logo {
+      position: relative;
+      width: 100%;
+      top: unset;
+      right: unset;
+      text-align: center;
+      max-width: unset;
+      padding-top: 30px;
+      img {
+        width: 75%;
+      }
+    }
     .intro-block {
       text-align: center;
       display: flex;
-      align-items: flex-end;
+      align-items: center;
       vertical-align: baseline;
       line-height: 1.6;
       h1 {
         font-size: 1.1rem;
       }
       .confirm-btn {
-        margin-top: 30vh;
+        margin-top: 15vh;
         margin-bottom: 20vh;
         padding: 10px;
         width: 100%;

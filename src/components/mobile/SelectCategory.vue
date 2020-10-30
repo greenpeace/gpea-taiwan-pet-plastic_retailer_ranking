@@ -8,14 +8,14 @@
         <h2 class="title">你認為過去一年內，<br>哪間超市／超商／量販店<br>在減塑方面做出最多努力？</h2>
       </el-col>
     </el-row>
-    <el-row>
+    <!-- <el-row>
       <el-col :span="24">
         <p class="description">
           投票後就能看見一年內<strong>進步最多</strong>跟<strong>支持率最高</strong>的零售商是誰哦！
         </p>
       </el-col>
-    </el-row>
-    <p class="label-badge"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> 選擇類別，開始投票！</p>
+    </el-row> -->
+    <p class="label-badge"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> 選擇類別，看看減塑評比結果！</p>
     <div class="slider-row transparent">
       <div class="float-btn nav-left" @click="prevSlide()">
         <i class="fa fa-chevron-left" aria-hidden="true"></i>
@@ -146,7 +146,7 @@ export default {
     background-color: rgba(255,255,255,0.16);
     padding: 7px 7px 7px 17px;
     border-radius: 50px;
-    width: 55%;
+    width: 80%;
   }
   .light-cover {
     position: absolute;

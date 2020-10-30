@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <IntroAndForm v-if="introShow" />
     <Landing />
     <div id="voting">
       <Desktop 
@@ -15,7 +16,6 @@
         v-bind:ip="ip" 
         v-bind:categories="categories" />
     </div>
-    <IntroAndForm v-if="introShow" />
     <Footer v-bind:isDesktop="isDesktop" />
   </div>
 </template>

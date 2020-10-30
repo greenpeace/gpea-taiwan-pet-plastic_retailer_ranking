@@ -5,9 +5,9 @@
     </div>
     <transition name="el-fade-in">
       <div class="cover" v-if="show">
-        <div class="floating-logo">
+        <!-- <div class="floating-logo">
           <img src="../assets/logo_black.png" width="100%" alt="">
-        </div>
+        </div> -->
         <el-row>
           <el-col :xs="{span: 18, offset: 3}" class="logan" :sm="6">
             <img src="../assets/logan.png" width="100%" alt="">
