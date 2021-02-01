@@ -729,7 +729,7 @@ export default {
   }
 }
 .suggestion {
-  color: red;
+  color: #ffb100;
   margin: 0;
   text-align: right;
   cursor: pointer;
