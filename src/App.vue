@@ -16,6 +16,7 @@
         v-bind:ip="ip" 
         v-bind:categories="categories" />
     </div>
+    <Replies v-bind:appScript="appScript" />
     <Footer v-bind:isDesktop="isDesktop" />
   </div>
 </template>
@@ -26,6 +27,7 @@ import IntroAndForm from './views/IntroAndForm.vue'
 import Desktop from './views/Desktop.vue'
 import Mobile from './views/Mobile.vue'
 import Footer from './views/Footer.vue'
+import Replies from './views/Replies.vue'
 import axios from 'axios'
 
 export default {
@@ -35,6 +37,7 @@ export default {
     Mobile,
     Footer,
     Landing,
+    Replies,
     IntroAndForm
   },
   data() {

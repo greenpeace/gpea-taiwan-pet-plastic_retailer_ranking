@@ -1,7 +1,9 @@
 <template>
   <div class="intro">
     <div class="floating-logo">
-      <img src="../assets/logo_black.png" width="100%" alt="">
+      <a href="https://www.greenpeace.org/taiwan/%e8%b6%85%e5%b8%82%e6%b8%9b%e5%a1%91/" target="_blank">
+        <img src="../assets/logo_black.png" width="100%" alt="">
+      </a>
     </div>
     <transition name="el-fade-in">
       <div class="intro-block" v-if="show">
@@ -40,10 +42,6 @@
               <li><strong>倡議與創新</strong>：以重複使用為原則，開發可規模化的替代方案，並投入員工訓練以及消費者溝通，推廣替代方案。</li>
               <li><strong>達到資訊透明</strong>：全面盤點並公布塑膠足跡，包括塑膠包裝以及塑膠製品的重量、數量以及種類，並公開減塑成果，引領臺灣零售產業一起邁向無塑。</li>
             </ul>
-            
-            
-            
-            
           </p>
         </el-col>
         <!-- form -->
@@ -84,7 +82,8 @@
                   label-width="120px"
                   label-position="top">
                   <el-form-item label="電子信箱" prop="email" required>
-                    <el-input autocomplete="on" placeholder="greenpeace@gmail.com" v-model="ruleForm.email"></el-input>
+                    <el-input id="" @blur="checkMail" autocomplete="on" placeholder="greenpeace@gmail.com" v-model="ruleForm.email"></el-input>
+                    <p @click="selectSuggestion" class="suggestion" v-if="suggestion !== ''">您想輸入的是 {{suggestion}} 嗎？</p>
                   </el-form-item>
                   <el-row :gutter="30">
                     <el-col :xs="24" :sm="24" :xl="18">
@@ -205,6 +204,7 @@ export default {
       formLoading: false,
       progressNumber: 1200,
       progressGoal: 200000,
+      suggestion: "",
       ruleForm: {
         email: "",
         lastName: "",
@@ -352,7 +352,12 @@ export default {
         callback();
       }
     },
+    selectSuggestion() {
+      this.ruleForm.email = this.suggestion;
+      this.suggestion = ""
+    },  
     checkMail() {
+      // console.log("blur")
       //email suggestion, email correctness
       let domains = [
         "me.com",
@@ -369,19 +374,14 @@ export default {
         "yahoo.com.hk",
       ];
       let topLevelDomains = ["com", "net", "org"];
-
+      // console.log(this.ruleForm.email)
       Mailcheck.run({
-        email: window.$("[name='email']").val(),
+        email: this.ruleForm.email,
         domains: domains, // optional
         topLevelDomains: topLevelDomains, // optional
         suggested: (suggestion) => {
-          window.$("#emailSuggestion").html(suggestion.full);
-          window.$(".email-suggestion").show();
-
-          window.$(".email-suggestion").click(function () {
-            window.$("[name='email']").val(window.$("#emailSuggestion").html());
-            window.$(".email-suggestion").hide();
-          });
+          // console.log(suggestion)
+          this.suggestion = suggestion.full;
         },
         empty: () => {
           this.emailSuggestion = null;
@@ -505,10 +505,12 @@ export default {
   padding-bottom: 4%;
   .floating-logo {
     position: absolute;
+    cursor: pointer;
     top: 50px;
     right: 100px;
     width: 40%;
     max-width: 300px;
+    z-index: 100;
   }
   .intro-block {
     transition: all .5s ease;
@@ -725,5 +727,11 @@ export default {
   .share-btn {
     font-size: 0.8rem !important;
   }
+}
+.suggestion {
+  color: red;
+  margin: 0;
+  text-align: right;
+  cursor: pointer;
 }
 </style>
