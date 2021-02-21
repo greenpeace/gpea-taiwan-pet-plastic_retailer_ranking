@@ -156,6 +156,7 @@ body {
   font-family: "Noto Sans TC" ,'Avenir', Helvetica, Arial, sans-serif;
   height: auto;
   margin: 0;
+  overflow-x: hidden;
 }
 button {
   font-family: "Noto Sans TC" ,'Avenir', Helvetica, Arial, sans-serif;
