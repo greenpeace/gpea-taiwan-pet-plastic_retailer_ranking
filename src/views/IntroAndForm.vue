@@ -149,7 +149,7 @@
                     <el-col :span="12">
                       <el-button class="share-btn share-button share-button__fb" @click="open('https://www.facebook.com/sharer/sharer.php?u=https://act.gp/2T6qody')"><i class="fa fa-facebook-official" aria-hidden="true"></i> 邀請朋友連署</el-button>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col v-if="this.$route.query.utm_source !== `dd`" :span="12">
                       <el-button class="share-btn share-button share-button__fb" @click="open('https://supporter.ea.greenpeace.org/tw/s/donate?campaign=plastics&ref=2020-plastic_retailer_thankyou_page')"><i class="fa fa-share-alt" aria-hidden="true"></i> 支持我們</el-button>
                     </el-col>
                   </el-row>

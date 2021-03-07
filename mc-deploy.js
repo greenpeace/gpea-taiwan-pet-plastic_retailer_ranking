@@ -38,7 +38,7 @@ let buildFolder = path.join(__dirname, "build")
 	DonationPageUrl = "https://www.greenpeace.org/eastasia/", // not used now
 	interests = ["Plastics"], // Arctic, Climate, Forest, Health, Oceans, Plastics
 	ftpConfigName = "ftp_tw", // refer to ~/.npm-en-uploader-secret
-	ftpRemoteDir = "/htdocs/2020/petition/zh-TW.2020.plastic-retailer-ranking.mc"
+	ftpRemoteDir = "/htdocs/2020/petition/zh-TW.2020.plastic-retailer-ranking.mc-v2"
 
 let indexHtmlFilePath = path.join(buildFolder, "index.html")
 let fbuf = fs.readFileSync(indexHtmlFilePath)
@@ -148,13 +148,12 @@ let headersTmpl =
 	SET @DonationPageUrl = "${DonationPageUrl}"
 
 	/**** Retreive number of responses in campaign used for any petition where petition sign up progress bar is needed to display signups compared to targeted number of signups ****/
-	SET @CampaignRows = RetrieveSalesforceObjects("Campaign","NumberOfResponses, Petition_Signup_Target__c","Id","=",@CampaignId)
-
-	IF RowCount(@CampaignRows) > 0 THEN
-		SET @CampaignSubscriberRow = Row(@CampaignRows, 1)
-		SET @NumberOfResponses = Field(@CampaignSubscriberRow, "NumberOfResponses")
-		SET @Petition_Signup_Target__c = Field(@CampaignSubscriberRow, "Petition_Signup_Target__c")
-	ENDIF
+	SET @Rows = LookupRows("ENT.Campaign_Salesforce","Id", @CampaignId)
+    IF RowCount(@Rows) > 0 THEN
+      SET @CampaignRow = Row(@Rows, 1)
+      SET @NumberOfResponses = Field(@CampaignRow, "NumberOfResponses")
+      SET @Petition_Signup_Target__c = Field(@CampaignRow, "Petition_Signup_Target__c")
+    ENDIF
 
 	/*UTM Tracking Params*/
 	SET @UtmMedium          = RequestParameter("utm_medium")
