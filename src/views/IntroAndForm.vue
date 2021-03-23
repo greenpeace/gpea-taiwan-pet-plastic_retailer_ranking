@@ -145,12 +145,24 @@
                     綠色和平曾與其他團體成功推動<strong>禁用塑膠微粒</strong>以及<strong>實施限用一次性塑膠政策</strong><br>
                     這場「減塑運動」會一直持續下去，實踐源頭減塑，需要您進一步的支持，一起為減塑拿下更多里程碑!
                   </p>
-                  <el-row :gutter="20">
+                  <el-row :gutter="20" v-if="!isDDPage">
                     <el-col :span="12">
                       <el-button class="share-btn share-button share-button__fb" @click="open('https://www.facebook.com/sharer/sharer.php?u=https://act.gp/2T6qody')"><i class="fa fa-facebook-official" aria-hidden="true"></i> 邀請朋友連署</el-button>
                     </el-col>
-                    <el-col v-if="this.$route.query.utm_source !== `dd`" :span="12">
+                    <el-col :span="12">
                       <el-button class="share-btn share-button share-button__fb" @click="open('https://supporter.ea.greenpeace.org/tw/s/donate?campaign=plastics&ref=2020-plastic_retailer_thankyou_page')"><i class="fa fa-share-alt" aria-hidden="true"></i> 支持我們</el-button>
+                    </el-col>
+                  </el-row>
+                  <el-row :gutter="20" v-if="isDDPage">
+                    <el-col :span="24">
+                      <el-button class="share-btn share-button share-button__fb" @click="open('https://www.facebook.com/sharer/sharer.php?u=https://act.gp/2T6qody')"><i class="fa fa-facebook-official" aria-hidden="true"></i> 邀請朋友連署</el-button>
+                    </el-col>
+                    <!-- line -->
+                    <el-col :span="24">
+                      <h2 class="link" @click="directTo(lineShare.link)">加入我們的 LINE 好友</h2>
+                      <el-col :span="16" :offset="4">
+                        <img :src="lineShare.img" class="tp-line line-share-img" width="100%" alt="">
+                      </el-col>
                     </el-col>
                   </el-row>
                 </div>
@@ -251,6 +263,10 @@ export default {
             trigger: "blur"
           }
         ]
+      },
+      lineShare: {
+        img: require("../assets/tp-line-qrcode.png"),
+        link: "http://act.gp/GPLINE_tp"
       }
     }
   },
@@ -273,6 +289,27 @@ export default {
     if (this.isDDPage) {
       console.log("dd page");
       delete this.rules.phoneNumber;
+      
+      switch (this.$route.query.utm_content) {
+        case "tp":
+            this.lineShare.img = require("../assets/tp-line-qrcode.png");
+            this.lineShare.link = "http://act.gp/GPLINE_tp";
+            break;
+        case "tc":
+            this.lineShare.img = require("../assets/tc-line-qrcode.png");
+            this.lineShare.link = "http://act.gp/GPLINE_tc";
+            break;
+        case "ks":
+            this.lineShare.img = require("../assets/ks-line-qrcode.png");
+            this.lineShare.link = "http://act.gp/GPLINE_ks";
+            break;    
+        default:
+            this.lineShare.img = require("../assets/tp-line-qrcode.png");
+            this.lineShare.link = "http://act.gp/GPLINE_tp";
+            break
+      }
+
+
     } else {
       console.log("normal page");
       this.rules.phoneNumber = [
@@ -292,6 +329,9 @@ export default {
     this.getPetitionNumber();
   },
   methods: {
+    directTo(url) {
+      window.open(url, "_blank")
+    },
     getPetitionNumber() {
       let numSignupTarget = document.querySelector(
         'input[name="numSignupTarget"]'
@@ -647,7 +687,7 @@ export default {
         }
         .share-btn {
           margin-top: 15%;
-          margin-bottom: 15%;
+          margin-bottom: 5%;
           width: 100%;
           font-size: 1.1rem;
           &:hover {
@@ -732,6 +772,9 @@ export default {
   color: #ffb100;
   margin: 0;
   text-align: right;
+  cursor: pointer;
+}
+.link {
   cursor: pointer;
 }
 </style>
