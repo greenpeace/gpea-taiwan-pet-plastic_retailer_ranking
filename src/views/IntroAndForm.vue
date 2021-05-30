@@ -200,11 +200,15 @@ export default {
       }
     };
     var validatePhone = (rule, value, callback) => {
-      let re_phone = new RegExp(/0\d{1,2}-\d{6,8}/);
-      let re_mobile = new RegExp(/((?=(09))[0-9]{10})$/);
+      // let re_phone = new RegExp(/0\d{1,2}-\d{6,8}/);
+      // let re_mobile = new RegExp(/((?=(09))[0-9]{10})$/);
+      const phoneReg6 = new RegExp(/^(0|886|\+886)?(9\d{8})$/).test(value);
+      const phoneReg7 = new RegExp(/^(0|886|\+886){1}[3-8]-?\d{6,8}$/).test(value);
+      const phoneReg8 = new RegExp(/^(0|886|\+886){1}[2]-?\d{8}$/).test(value);
+
       if (value === "") {
         callback(new Error("電話格式不正確"));
-      } else if (!(re_phone.test(value) || re_mobile.test(value))) {
+      } else if (!(phoneReg6 || phoneReg7 || phoneReg8)) {
         callback(new Error("電話格式不正確"));
       } else {
         callback();
